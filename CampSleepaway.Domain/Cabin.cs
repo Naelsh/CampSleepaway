@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace CampSleepaway.Domain
 {
@@ -10,5 +6,6 @@ namespace CampSleepaway.Domain
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public List<Person> Residents { get; set; } = new List<Person>();
     }
 }

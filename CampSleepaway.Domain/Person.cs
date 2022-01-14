@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace CampSleepaway.Domain
+﻿namespace CampSleepaway.Domain
 {
     public class Person
     {
