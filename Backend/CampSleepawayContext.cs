@@ -10,7 +10,6 @@ namespace Backend
         public DbSet<Camper> Campers { get; set; }
         public DbSet<NextOfKin> NextOfKins { get; set; }
         public DbSet<Counselor> Counselors { get; set; }
-        public DbSet<Person> People { get; set; }
 
         public CampSleepawayContext()
         {
@@ -51,17 +50,17 @@ namespace Backend
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Cabin>()
-             .HasMany(c => c.Residents)
-             .WithMany(b => b.Samurais)
-             .UsingEntity<BattleSamurai>
-              (bs => bs.HasOne<Battle>().WithMany(),
-               bs => bs.HasOne<Samurai>().WithMany())
-             .Property(bs => bs.DateJoined)
-             .HasDefaultValueSql("getdate()");
+            //modelBuilder.Entity<Cabin>()
+            // .HasMany(c => c.Residents)
+            // .WithMany(b => b.Samurais)
+            // .UsingEntity<BattleSamurai>
+            //  (bs => bs.HasOne<Battle>().WithMany(),
+            //   bs => bs.HasOne<Samurai>().WithMany())
+            // .Property(bs => bs.DateJoined)
+            // .HasDefaultValueSql("getdate()");
 
-            modelBuilder.Entity<Horse>().ToTable("Horses");
-            modelBuilder.Entity<SamuraiBattleStat>().HasNoKey().ToView("SamuraiBattleStats");
+            //modelBuilder.Entity<Horse>().ToTable("Horses");
+            //modelBuilder.Entity<SamuraiBattleStat>().HasNoKey().ToView("SamuraiBattleStats");
         }
     }
 }
