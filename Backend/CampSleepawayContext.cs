@@ -52,12 +52,28 @@ namespace Backend
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            SetupCamperCabin(modelBuilder);
+            SetupCounselorCabin(modelBuilder);
+        }
+
+        private static void SetupCounselorCabin(ModelBuilder modelBuilder)
+        {
             modelBuilder.Entity<Cabin>()
-             .HasMany(cabin => cabin.Campers)
-             .WithMany(camper => camper.CabinStays)
-             .UsingEntity<CabinCamperStay>
-              (ccs => ccs.HasOne<Camper>().WithMany(),
-               ccs => ccs.HasOne<Cabin>().WithMany());
+                            .HasMany(cabin => cabin.Counselors)
+                            .WithMany(counselor => counselor.CabinStays)
+                            .UsingEntity<CabinCounselorStay>
+                            (ccs => ccs.HasOne<Counselor>().WithMany(),
+                            ccs => ccs.HasOne<Cabin>().WithMany());
+        }
+
+        private static void SetupCamperCabin(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cabin>()
+                         .HasMany(cabin => cabin.Campers)
+                         .WithMany(camper => camper.CabinStays)
+                         .UsingEntity<CabinCamperStay>
+                          (ccs => ccs.HasOne<Camper>().WithMany(),
+                           ccs => ccs.HasOne<Cabin>().WithMany());
         }
     }
 }
