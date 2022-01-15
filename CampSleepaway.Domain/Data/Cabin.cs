@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CampSleepaway.Domain
+namespace CampSleepaway.Domain.Data
 {
     public class Cabin
     {

@@ -1,6 +1,6 @@
 ﻿//using System;
 
-//namespace CampSleepaway.Domain
+//namespace CampSleepaway.Domain.Data
 //{
 //    public class Visit
 //    {

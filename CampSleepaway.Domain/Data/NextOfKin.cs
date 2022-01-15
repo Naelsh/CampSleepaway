@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CampSleepaway.Domain
+namespace CampSleepaway.Domain.Data
 {
-    public class Counselor
+    public class NextOfKin
     {
         public int Id { get; set; }
         [MaxLength(50)]
@@ -14,8 +14,9 @@ namespace CampSleepaway.Domain
         public string LastName { get; set; }
         [MaxLength(12)]
         public string PhoneNumber { get; set; }
-        [MaxLength(25)]
-        public string Title { get; set; }
-        public List<Cabin> CabinStays { get; set; } = new List<Cabin>();
+        [MaxLength(50)]
+        [Required]
+        public string MailAddress { get; set; }
+        public List<Camper> Children { get; set; } = new List<Camper>();
     }
 }

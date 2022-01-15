@@ -1,11 +1,11 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations;
 
-namespace CampSleepaway.Domain
+namespace CampSleepaway.Domain.Data
 {
-    public class CabinCounselorStay
+    public class CabinCamperStay
     {
-        public int CounselorId { get; set; }
+        public int CamperId { get; set; }
         public int CabinId { get; set; }
         [Required]
         public DateTime StartTime { get; set; }

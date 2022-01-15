@@ -1,6 +1,5 @@
-﻿using CampSleepaway.Domain;
+﻿using CampSleepaway.Domain.Data;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace CampSleepaway.Persistence
 {
@@ -57,7 +56,7 @@ namespace CampSleepaway.Persistence
             SetupCamperNextOfKin(modelBuilder);
         }
 
-        private void SetupCamperNextOfKin(ModelBuilder modelBuilder)
+        private static void SetupCamperNextOfKin(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Camper>()
                             .HasMany(camper => camper.NextOfKins)
@@ -67,7 +66,7 @@ namespace CampSleepaway.Persistence
                             v => v.HasOne<Camper>().WithMany());
         }
 
-        //private void SetupVisits(ModelBuilder modelBuilder)
+        //private static void SetupVisits(ModelBuilder modelBuilder)
         //{
         //    modelBuilder.Entity<Camper>()
         //                    .HasMany(camper => camper.NextOfKins)
@@ -77,7 +76,7 @@ namespace CampSleepaway.Persistence
         //                    v => v.HasOne<Camper>().WithMany());
         //}
 
-        private void SetupCounselorCabin(ModelBuilder modelBuilder)
+        private static void SetupCounselorCabin(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cabin>()
                             .HasMany(cabin => cabin.Counselors)
@@ -87,7 +86,7 @@ namespace CampSleepaway.Persistence
                             ccs => ccs.HasOne<Cabin>().WithMany());
         }
 
-        private void SetupCamperCabin(ModelBuilder modelBuilder)
+        private static void SetupCamperCabin(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cabin>()
                          .HasMany(cabin => cabin.Campers)
