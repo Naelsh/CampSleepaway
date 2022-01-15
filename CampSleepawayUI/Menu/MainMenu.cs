@@ -11,8 +11,10 @@ namespace CampSleepaway.UI.Menu
     {
         private readonly List<string> _menuOptions = new ()
         {
-            "Seed data",
+            "Seed Data",
             "Add Camper",
+            "Find Camper",
+            "Report Menu",
             //"Add Cabin",
             //"Add Counselor",
             //"Add Next of Kin",
@@ -25,6 +27,7 @@ namespace CampSleepaway.UI.Menu
             {
                 1 => this,
                 2 => new AddCamperMenu(),
+                3 => new FindCamperMenu(),
                 _ => null,
             };
         }

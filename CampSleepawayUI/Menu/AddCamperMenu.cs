@@ -13,10 +13,9 @@ namespace CampSleepaway.UI.Menu
     {
         private readonly List<string> _menuOptions = new ()
         {
-            "Add Camper",
+            "Add new 10 year old Camper",
             "Return to main menu"
         };
-
 
         public override Menu GetNextMenu(int input)
         {
@@ -37,9 +36,9 @@ namespace CampSleepaway.UI.Menu
                 CamperManager manager = new (context);
                 Camper newCamper = new()
                 {
-                    FirstName = "TestFN",
-                    LastName = "TestLN",
-                    DateOfBirth = new DateTime(2012, 1, 1)
+                    FirstName = "10y FN",
+                    LastName = "10y LN",
+                    DateOfBirth = DateTime.Now.AddYears(-10)
                 };
                 manager.AddCamper(newCamper);
             }
@@ -48,8 +47,8 @@ namespace CampSleepaway.UI.Menu
 
         public override void ShowMenu()
         {
-            Console.WriteLine("Welcome to the application for managing the local database Telerik");
-            Console.WriteLine("What would you like to do? Enter the corresponding number");
+            Console.WriteLine("We are now ready to add new campers");
+            Console.WriteLine("Please select a menu option below");
             for (int menuIndex = 0; menuIndex < _menuOptions.Count; menuIndex++)
             {
                 Console.WriteLine($"{menuIndex + 1}. {_menuOptions[menuIndex]}");

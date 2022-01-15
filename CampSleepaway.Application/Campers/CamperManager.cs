@@ -22,6 +22,21 @@ namespace CampSleepaway.Application.Campers
             return result;
         }
 
+        public List<Camper> GetAllCampers()
+        {
+            return _context.Campers.Select(x => x).ToList();
+        }
+
+        public List<Camper> GetCampersByName(string firstName)
+        {
+            return _context.Campers.Where(x => x.FirstName == firstName).ToList();
+        }
+
+        public Camper GetCamperById(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         //public int AddNextOfKinToCamper(Camper camper, NextOfKin nextOfKins, string relationship)
         //{
         //    return 0;
