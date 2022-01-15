@@ -2,9 +2,9 @@
 
 namespace CampSleepaway.Domain
 {
-    public class CabinStay
+    public class CabinCounselorStay
     {
-        public int PersonId { get; set; }
+        public int CounselorId { get; set; }
         public int CabinId { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }

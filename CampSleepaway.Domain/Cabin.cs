@@ -6,6 +6,7 @@ namespace CampSleepaway.Domain
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public List<Person> Residents { get; set; } = new List<Person>();
+        public List<Camper> Campers { get; set; } = new List<Camper>();
+        public List<Counselor> Counselors { get; set; } = new List<Counselor>();
     }
 }

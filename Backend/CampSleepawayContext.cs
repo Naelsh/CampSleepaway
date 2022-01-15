@@ -23,6 +23,7 @@ namespace Backend
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
+            #region ConnectionStrings
             // Laptop
             //string connectionString =
             //    @"Data Source=DESKTOP-EJ7V12L\SQLEXPRESS01;" +
@@ -40,6 +41,7 @@ namespace Backend
             //    @"Data Source=DESKTOP-T2GL85N\SQLEXPRESS2017;" +
             //    @"Initial Catalog=CS_Niklas_Lindblad;" +
             //    @"Integrated Security=true";
+            #endregion
 
 
             if (!optionsBuilder.IsConfigured)
@@ -50,17 +52,12 @@ namespace Backend
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //modelBuilder.Entity<Cabin>()
-            // .HasMany(c => c.Residents)
-            // .WithMany(b => b.Samurais)
-            // .UsingEntity<BattleSamurai>
-            //  (bs => bs.HasOne<Battle>().WithMany(),
-            //   bs => bs.HasOne<Samurai>().WithMany())
-            // .Property(bs => bs.DateJoined)
-            // .HasDefaultValueSql("getdate()");
-
-            //modelBuilder.Entity<Horse>().ToTable("Horses");
-            //modelBuilder.Entity<SamuraiBattleStat>().HasNoKey().ToView("SamuraiBattleStats");
+            modelBuilder.Entity<Cabin>()
+             .HasMany(cabin => cabin.Campers)
+             .WithMany(camper => camper.CabinStays)
+             .UsingEntity<CabinCamperStay>
+              (ccs => ccs.HasOne<Camper>().WithMany(),
+               ccs => ccs.HasOne<Cabin>().WithMany());
         }
     }
 }
