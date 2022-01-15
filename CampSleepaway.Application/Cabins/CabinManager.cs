@@ -8,14 +8,10 @@ using System.Threading.Tasks;
 
 namespace CampSleepaway.Application.Cabins
 {
-    public class CabinManager
+    public class CabinManager : ManagerCore
     {
-        private readonly CampSleepawayContext _context;
-
-        public CabinManager(CampSleepawayContext context)
-        {
-            _context = context;
-        }
+        public CabinManager(CampSleepawayContext context) : base(context)
+        { }
 
         public int AddCabinByName(string name)
         {
