@@ -54,9 +54,31 @@ namespace Backend
         {
             SetupCamperCabin(modelBuilder);
             SetupCounselorCabin(modelBuilder);
+            SetupVisits(modelBuilder);
+            SetupCamperNextOfKin(modelBuilder);
         }
 
-        private static void SetupCounselorCabin(ModelBuilder modelBuilder)
+        private void SetupCamperNextOfKin(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Camper>()
+                            .HasMany(camper => camper.NextOfKins)
+                            .WithMany(nextOfKin => nextOfKin.Children)
+                            .UsingEntity<CamperNextOfKin>
+                            (v => v.HasOne<NextOfKin>().WithMany(),
+                            v => v.HasOne<Camper>().WithMany());
+        }
+
+        private void SetupVisits(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Camper>()
+                            .HasMany(camper => camper.NextOfKins)
+                            .WithMany(nextOfKin => nextOfKin.Children)
+                            .UsingEntity<Visit>
+                            (v => v.HasOne<NextOfKin>().WithMany(),
+                            v => v.HasOne<Camper>().WithMany());
+        }
+
+        private void SetupCounselorCabin(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cabin>()
                             .HasMany(cabin => cabin.Counselors)
@@ -66,7 +88,7 @@ namespace Backend
                             ccs => ccs.HasOne<Cabin>().WithMany());
         }
 
-        private static void SetupCamperCabin(ModelBuilder modelBuilder)
+        private void SetupCamperCabin(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cabin>()
                          .HasMany(cabin => cabin.Campers)
