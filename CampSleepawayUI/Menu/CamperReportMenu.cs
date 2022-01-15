@@ -9,13 +9,12 @@ using System.Threading.Tasks;
 
 namespace CampSleepaway.UI.Menu
 {
-    class FindCamperMenu : Menu
+    class CamperReportMenu : Menu
     {
         private readonly List<string> _menuOptions = new()
         {
-            "Find all campers",
-            "Find camper by name",
-            "Find camper by id",
+            "Find all campers living in a Cabin",
+            "Find all campers by Counselor",
             "Return to main menu"
         };
 
@@ -25,8 +24,7 @@ namespace CampSleepaway.UI.Menu
             {
                 1 => this,
                 2 => this,
-                3 => this,
-                4 => new MainMenu(),
+                3 => new MainMenu(),
                 _ => null,
             };
         }

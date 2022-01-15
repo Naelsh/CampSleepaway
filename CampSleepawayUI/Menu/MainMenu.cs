@@ -14,7 +14,7 @@ namespace CampSleepaway.UI.Menu
             "Seed Data",
             "Add Camper",
             "Find Camper",
-            "Report Menu",
+            "Camper Reports",
             //"Add Cabin",
             //"Add Counselor",
             //"Add Next of Kin",
@@ -27,7 +27,7 @@ namespace CampSleepaway.UI.Menu
             {
                 1 => this,
                 2 => new AddCamperMenu(),
-                3 => new FindCamperMenu(),
+                3 => new CamperReportMenu(),
                 _ => null,
             };
         }
