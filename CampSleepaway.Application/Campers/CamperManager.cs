@@ -13,16 +13,18 @@ namespace CampSleepaway.Application.Campers
         public CamperManager(CampSleepawayContext context) : base(context)
         { }
 
-        public int AddCamperByName(string firstName, string lastName, DateTime dateOfBirth)
+        public int AddCamper(Camper newCamper)
         {
-            if (firstName == null || lastName == null)
-            {
-                return 0;
-            }
-            Camper camper = new() {FirstName = firstName, LastName = lastName, DateOfBirth = dateOfBirth };
-            _context.Campers.Add(camper);
+            if (newCamper.FirstName == null) { return 0; }
+            if (newCamper.LastName == null) { return 0; }
+            _context.Campers.Add(newCamper);
             var result = _context.SaveChanges();
             return result;
         }
+
+        //public int AddNextOfKinToCamper(Camper camper, NextOfKin nextOfKins, string relationship)
+        //{
+        //    return 0;
+        //}
     }
 }

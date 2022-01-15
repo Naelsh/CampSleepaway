@@ -1,5 +1,6 @@
 ﻿using CampSleepaway.Application.Cabins;
 using CampSleepaway.Application.Campers;
+using CampSleepaway.Domain.Data;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,10 @@ namespace CampSleepaway.Test.Units.Application
             int expected = 0;
 
             using var context = TestAddons.GetTestContext("CanNotInsertCamper");
-            var cabinCreate = new CamperManager(context);
+            var camperManager = new CamperManager(context);
+            var camper = new Camper();
 
-            int result = cabinCreate.AddCamperByName(null, null, new DateTime());
+            int result = camperManager.AddCamper(camper);
 
             Assert.AreEqual(expected, result);
         }
@@ -30,11 +32,30 @@ namespace CampSleepaway.Test.Units.Application
             var expected = 1;
 
             using var context = TestAddons.GetTestContext("CanInsertCamper");
-            var cabinCreate = new CamperManager(context);
+            var camperManager = new CamperManager(context);
+            var camper = new Camper()
+            {
+                FirstName = "FirstName",
+                LastName = "LastName"
+            };
 
-            int result = cabinCreate.AddCamperByName("FirstName", "LastName", new DateTime(2012,01,01));
+            int result = camperManager.AddCamper(camper);
 
             Assert.AreEqual(expected, result);
         }
+
+        //[Test]
+        //public void AddRelationBetweenCamperAndNextOfKin()
+        //{
+        //    var expected = 1;
+
+        //    using var context = TestAddons.GetTestContext("AddRelations");
+        //    var camperManager = new CamperManager(context);
+        //    Camper camper = new Camper()
+        //    {
+        //        FirstName = "FirstName",
+        //        LastName = "LastName"
+        //    };
+        //}
     }
 }

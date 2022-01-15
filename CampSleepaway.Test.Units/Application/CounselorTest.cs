@@ -18,7 +18,7 @@ namespace CampSleepaway.Test.Units.Application
             using var context = TestAddons.GetTestContext("Counselor");
             var manager = new CounselorManager(context);
 
-            Counselor counselor = new Counselor();
+            Counselor counselor = new ();
             int result = manager.AddCounselor(counselor);
 
             Assert.AreEqual(expectedChanges, result);
@@ -31,7 +31,7 @@ namespace CampSleepaway.Test.Units.Application
             using var context = TestAddons.GetTestContext("Counselor");
             var manager = new CounselorManager(context);
 
-            Counselor counselor = new Counselor()
+            Counselor counselor = new ()
             {
                 FirstName = "FirstName",
                 LastName = "LastName",
@@ -51,7 +51,7 @@ namespace CampSleepaway.Test.Units.Application
             using var context = TestAddons.GetTestContext("Counselor");
             var manager = new CounselorManager(context);
 
-            Counselor counselor = new Counselor()
+            Counselor counselor = new ()
             {
                 FirstName = "FirstName",
                 PhoneNumber = "PhoneNum",
@@ -64,13 +64,13 @@ namespace CampSleepaway.Test.Units.Application
         }
 
         [Test]
-        public void AddCounselor_PhoneNumber_NoChange()
+        public void AddCounselor_PhoneNumber_AddOne()
         {
-            int expectedChanges = 0;
+            int expectedChanges = 1;
             using var context = TestAddons.GetTestContext("Counselor");
             var manager = new CounselorManager(context);
 
-            Counselor counselor = new Counselor()
+            Counselor counselor = new ()
             {
                 FirstName = "FirstName",
                 LastName = "LastName",
