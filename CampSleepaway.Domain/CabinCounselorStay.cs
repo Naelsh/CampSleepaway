@@ -6,7 +6,7 @@ namespace CampSleepaway.Domain
     {
         public int CounselorId { get; set; }
         public int CabinId { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }

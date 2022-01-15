@@ -43,7 +43,6 @@ namespace Backend
             //    @"Integrated Security=true";
             #endregion
 
-
             if (!optionsBuilder.IsConfigured)
             {
                 optionsBuilder.UseSqlServer(connectionString);

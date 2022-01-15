@@ -10,7 +10,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace CampSleepaway.Persistence.Migrations
 {
     [DbContext(typeof(CampSleepawayContext))]
-    [Migration("20220115075821_init")]
+    [Migration("20220115092206_init")]
     partial class init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -20,21 +20,6 @@ namespace CampSleepaway.Persistence.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.13")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-            modelBuilder.Entity("CabinCounselor", b =>
-                {
-                    b.Property<int>("CabinStaysId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("CounselorsId")
-                        .HasColumnType("int");
-
-                    b.HasKey("CabinStaysId", "CounselorsId");
-
-                    b.HasIndex("CounselorsId");
-
-                    b.ToTable("CabinCounselor");
-                });
 
             modelBuilder.Entity("CampSleepaway.Domain.Cabin", b =>
                 {
@@ -72,6 +57,27 @@ namespace CampSleepaway.Persistence.Migrations
                     b.ToTable("CabinCamperStay");
                 });
 
+            modelBuilder.Entity("CampSleepaway.Domain.CabinCounselorStay", b =>
+                {
+                    b.Property<int>("CabinId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("CounselorId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
+
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("CabinId", "CounselorId");
+
+                    b.HasIndex("CounselorId");
+
+                    b.ToTable("CabinCounselorStay");
+                });
+
             modelBuilder.Entity("CampSleepaway.Domain.Camper", b =>
                 {
                     b.Property<int>("Id")
@@ -91,6 +97,24 @@ namespace CampSleepaway.Persistence.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Campers");
+                });
+
+            modelBuilder.Entity("CampSleepaway.Domain.CamperNextOfKin", b =>
+                {
+                    b.Property<int>("CamperId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NextOfKinId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("NextOfKinRelationship")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CamperId", "NextOfKinId");
+
+                    b.HasIndex("NextOfKinId");
+
+                    b.ToTable("CamperNextOfKin");
                 });
 
             modelBuilder.Entity("CampSleepaway.Domain.Counselor", b =>
@@ -141,34 +165,25 @@ namespace CampSleepaway.Persistence.Migrations
                     b.ToTable("NextOfKins");
                 });
 
-            modelBuilder.Entity("CamperNextOfKin", b =>
+            modelBuilder.Entity("CampSleepaway.Domain.Visit", b =>
                 {
-                    b.Property<int>("ChildrenId")
+                    b.Property<int>("CamperId")
                         .HasColumnType("int");
 
-                    b.Property<int>("NextOfKinsId")
+                    b.Property<int>("NextOfKinId")
                         .HasColumnType("int");
 
-                    b.HasKey("ChildrenId", "NextOfKinsId");
+                    b.Property<DateTime>("End")
+                        .HasColumnType("datetime2");
 
-                    b.HasIndex("NextOfKinsId");
+                    b.Property<DateTime>("Start")
+                        .HasColumnType("datetime2");
 
-                    b.ToTable("CamperNextOfKin");
-                });
+                    b.HasKey("CamperId", "NextOfKinId");
 
-            modelBuilder.Entity("CabinCounselor", b =>
-                {
-                    b.HasOne("CampSleepaway.Domain.Cabin", null)
-                        .WithMany()
-                        .HasForeignKey("CabinStaysId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasIndex("NextOfKinId");
 
-                    b.HasOne("CampSleepaway.Domain.Counselor", null)
-                        .WithMany()
-                        .HasForeignKey("CounselorsId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.ToTable("Visit");
                 });
 
             modelBuilder.Entity("CampSleepaway.Domain.CabinCamperStay", b =>
@@ -186,17 +201,47 @@ namespace CampSleepaway.Persistence.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("CamperNextOfKin", b =>
+            modelBuilder.Entity("CampSleepaway.Domain.CabinCounselorStay", b =>
+                {
+                    b.HasOne("CampSleepaway.Domain.Cabin", null)
+                        .WithMany()
+                        .HasForeignKey("CabinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CampSleepaway.Domain.Counselor", null)
+                        .WithMany()
+                        .HasForeignKey("CounselorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CampSleepaway.Domain.CamperNextOfKin", b =>
                 {
                     b.HasOne("CampSleepaway.Domain.Camper", null)
                         .WithMany()
-                        .HasForeignKey("ChildrenId")
+                        .HasForeignKey("CamperId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("CampSleepaway.Domain.NextOfKin", null)
                         .WithMany()
-                        .HasForeignKey("NextOfKinsId")
+                        .HasForeignKey("NextOfKinId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("CampSleepaway.Domain.Visit", b =>
+                {
+                    b.HasOne("CampSleepaway.Domain.Camper", null)
+                        .WithMany()
+                        .HasForeignKey("CamperId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("CampSleepaway.Domain.NextOfKin", null)
+                        .WithMany()
+                        .HasForeignKey("NextOfKinId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });

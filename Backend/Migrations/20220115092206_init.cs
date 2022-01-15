@@ -94,24 +94,26 @@ namespace CampSleepaway.Persistence.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CabinCounselor",
+                name: "CabinCounselorStay",
                 columns: table => new
                 {
-                    CabinStaysId = table.Column<int>(type: "int", nullable: false),
-                    CounselorsId = table.Column<int>(type: "int", nullable: false)
+                    CounselorId = table.Column<int>(type: "int", nullable: false),
+                    CabinId = table.Column<int>(type: "int", nullable: false),
+                    Start = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    End = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CabinCounselor", x => new { x.CabinStaysId, x.CounselorsId });
+                    table.PrimaryKey("PK_CabinCounselorStay", x => new { x.CabinId, x.CounselorId });
                     table.ForeignKey(
-                        name: "FK_CabinCounselor_Cabins_CabinStaysId",
-                        column: x => x.CabinStaysId,
+                        name: "FK_CabinCounselorStay_Cabins_CabinId",
+                        column: x => x.CabinId,
                         principalTable: "Cabins",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CabinCounselor_Counselors_CounselorsId",
-                        column: x => x.CounselorsId,
+                        name: "FK_CabinCounselorStay_Counselors_CounselorId",
+                        column: x => x.CounselorId,
                         principalTable: "Counselors",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -121,21 +123,48 @@ namespace CampSleepaway.Persistence.Migrations
                 name: "CamperNextOfKin",
                 columns: table => new
                 {
-                    ChildrenId = table.Column<int>(type: "int", nullable: false),
-                    NextOfKinsId = table.Column<int>(type: "int", nullable: false)
+                    NextOfKinId = table.Column<int>(type: "int", nullable: false),
+                    CamperId = table.Column<int>(type: "int", nullable: false),
+                    NextOfKinRelationship = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CamperNextOfKin", x => new { x.ChildrenId, x.NextOfKinsId });
+                    table.PrimaryKey("PK_CamperNextOfKin", x => new { x.CamperId, x.NextOfKinId });
                     table.ForeignKey(
-                        name: "FK_CamperNextOfKin_Campers_ChildrenId",
-                        column: x => x.ChildrenId,
+                        name: "FK_CamperNextOfKin_Campers_CamperId",
+                        column: x => x.CamperId,
                         principalTable: "Campers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CamperNextOfKin_NextOfKins_NextOfKinsId",
-                        column: x => x.NextOfKinsId,
+                        name: "FK_CamperNextOfKin_NextOfKins_NextOfKinId",
+                        column: x => x.NextOfKinId,
+                        principalTable: "NextOfKins",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Visit",
+                columns: table => new
+                {
+                    NextOfKinId = table.Column<int>(type: "int", nullable: false),
+                    CamperId = table.Column<int>(type: "int", nullable: false),
+                    Start = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    End = table.Column<DateTime>(type: "datetime2", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Visit", x => new { x.CamperId, x.NextOfKinId });
+                    table.ForeignKey(
+                        name: "FK_Visit_Campers_CamperId",
+                        column: x => x.CamperId,
+                        principalTable: "Campers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Visit_NextOfKins_NextOfKinId",
+                        column: x => x.NextOfKinId,
                         principalTable: "NextOfKins",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -147,14 +176,19 @@ namespace CampSleepaway.Persistence.Migrations
                 column: "CamperId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CabinCounselor_CounselorsId",
-                table: "CabinCounselor",
-                column: "CounselorsId");
+                name: "IX_CabinCounselorStay_CounselorId",
+                table: "CabinCounselorStay",
+                column: "CounselorId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CamperNextOfKin_NextOfKinsId",
+                name: "IX_CamperNextOfKin_NextOfKinId",
                 table: "CamperNextOfKin",
-                column: "NextOfKinsId");
+                column: "NextOfKinId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Visit_NextOfKinId",
+                table: "Visit",
+                column: "NextOfKinId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -163,10 +197,13 @@ namespace CampSleepaway.Persistence.Migrations
                 name: "CabinCamperStay");
 
             migrationBuilder.DropTable(
-                name: "CabinCounselor");
+                name: "CabinCounselorStay");
 
             migrationBuilder.DropTable(
                 name: "CamperNextOfKin");
+
+            migrationBuilder.DropTable(
+                name: "Visit");
 
             migrationBuilder.DropTable(
                 name: "Cabins");
