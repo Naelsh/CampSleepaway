@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\CampSleepaway.Persistence\CampSleepaway.Persistence.csproj" />
+    <ProjectReference Include="..\Backend\CampSleepaway.Persistence.csproj" />
     <ProjectReference Include="..\CampSleepaway.Domain\CampSleepaway.Domain.csproj" />
   </ItemGroup>
 

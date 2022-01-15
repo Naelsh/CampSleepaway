@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using System;
 
-namespace Backend
+namespace CampSleepaway.Persistence
 {
     public class CampSleepawayContext : DbContext
     {
