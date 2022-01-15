@@ -1,5 +1,4 @@
-﻿using CampSleepaway.Domain.Data;
-using CampSleepaway.Persistence;
+﻿using CampSleepaway.Persistence;
 using Microsoft.EntityFrameworkCore;
 using NUnit.Framework;
 
@@ -10,16 +9,19 @@ namespace CampSleepaway.Test.Units
         [Test]
         public void CanInsertCabinIntoDatabase()
         {
-            var expected = EntityState.Added;
+            var expected = 1;
 
             var builder = new DbContextOptionsBuilder();
             builder.UseInMemoryDatabase("CanInsertCabin");
             using var context = new CampSleepawayContext(builder.Options);
 
-            var cabin = new Cabin() { Name = "Cabin 1" };
-            context.Cabins.Add(cabin);
+            var cabinLogic = new CabinLogic(context);
 
-            Assert.AreEqual(expected, context.Entry(cabin).State);
+            string name = "Cabin 1";
+
+            int result = cabinLogic.AddCabinByName(name);
+
+            Assert.AreEqual(expected, result);
         }
 
     }
