@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace CampSleepaway.Test.Units.Application
 {
-    class NextOfKinTest : TestAddons
+    class NextOfKinTest
     {
         [Test]
         public void AddNextOfKinByName_AllPropsNull_NoChange()
         {
             int expectedEntryChangesInDB = 0;
 
-            using var context = GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin();
             int result = nextOfKinManager.AddNextOfKin(nextOfKin);
@@ -29,7 +29,7 @@ namespace CampSleepaway.Test.Units.Application
         {
             int expectedEntryChangesInDB = 0;
 
-            using var context = GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin()
             {
@@ -52,7 +52,7 @@ namespace CampSleepaway.Test.Units.Application
         {
             int expectedEntryChangesInDB = 0;
 
-            using var context = GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin()
             {
@@ -75,7 +75,7 @@ namespace CampSleepaway.Test.Units.Application
         {
             int expectedEntryChangesInDB = 0;
 
-            using var context = GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin()
             {
@@ -92,7 +92,7 @@ namespace CampSleepaway.Test.Units.Application
         {
             int expectedEntryChangesInDB = 3;
 
-            using var context = GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
 
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin()

@@ -9,14 +9,14 @@ using System.Threading.Tasks;
 
 namespace CampSleepaway.Test.Units.Application
 {
-    class CamperTest : TestAddons
+    class CamperTest
     {
         [Test]
         public void AddCamperByName_EmptyString_NoChange()
         {
             int expected = 0;
 
-            using var context = GetTestContext("CanNotInsertCamper");
+            using var context = TestAddons.GetTestContext("CanNotInsertCamper");
             var cabinCreate = new CamperManager(context);
 
             int result = cabinCreate.AddCamperByName(null, null, new DateTime());
@@ -29,7 +29,7 @@ namespace CampSleepaway.Test.Units.Application
         {
             var expected = 1;
 
-            using var context = GetTestContext("CanInsertCamper");
+            using var context = TestAddons.GetTestContext("CanInsertCamper");
             var cabinCreate = new CamperManager(context);
 
             int result = cabinCreate.AddCamperByName("FirstName", "LastName", new DateTime(2012,01,01));

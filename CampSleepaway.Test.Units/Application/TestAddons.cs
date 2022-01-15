@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace CampSleepaway.Test.Units.Application
 {
-    class TestAddons
+    static class TestAddons
     {
         internal static CampSleepawayContext GetTestContext(string testName)
         {

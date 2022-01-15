@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace CampSleepaway.Test.Units.Application
 {
-    class CabinTest : TestAddons
+    class CabinTest
     {
 
         [Test]
@@ -19,7 +19,7 @@ namespace CampSleepaway.Test.Units.Application
         {
             int expected = 0;
 
-            using var context = GetTestContext("CanInsertCabin");
+            using var context = TestAddons.GetTestContext("CanInsertCabin");
             var cabinCreate = new CabinManager(context);
 
             string name = null;
@@ -33,7 +33,7 @@ namespace CampSleepaway.Test.Units.Application
         {
             var expected = 1;
 
-            using var context = GetTestContext("CanInsertCabin");
+            using var context = TestAddons.GetTestContext("CanInsertCabin");
             var cabinCreate = new CabinManager(context);
 
             string name = "Cabin 1";
