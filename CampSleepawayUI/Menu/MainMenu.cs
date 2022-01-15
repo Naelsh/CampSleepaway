@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CampSleepaway.Application;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,10 +11,11 @@ namespace CampSleepaway.UI.Menu
     {
         private readonly List<string> _menuOptions = new ()
         {
+            "Seed data",
             "Add Camper",
-            "Add Cabin",
-            "Add Counselor",
-            "Add Next of Kin",
+            //"Add Cabin",
+            //"Add Counselor",
+            //"Add Next of Kin",
             "Exit Application"
         };
 
@@ -21,14 +23,20 @@ namespace CampSleepaway.UI.Menu
         {
             return input switch
             {
-                1 => new AddCamperMenu(),
+                1 => this,
+                2 => new AddCamperMenu(),
                 _ => null,
             };
         }
 
         public override int HandleInput()
         {
-            return GetIntAboveZeroFromUserInput(_menuOptions.Count);
+            int inputValue = GetIntAboveZeroFromUserInput(_menuOptions.Count);
+            if (inputValue == 1)
+            {
+                SeedData.CreateSeedData();
+            }
+            return inputValue;
         }
 
         public override void ShowMenu()

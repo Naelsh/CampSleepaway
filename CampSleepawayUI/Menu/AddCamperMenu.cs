@@ -35,7 +35,12 @@ namespace CampSleepaway.UI.Menu
             {
                 using var context = new CampSleepawayContext();
                 CamperManager manager = new (context);
-                Camper newCamper = new ();
+                Camper newCamper = new()
+                {
+                    FirstName = "TestFN",
+                    LastName = "TestLN",
+                    DateOfBirth = new DateTime(2012, 1, 1)
+                };
                 manager.AddCamper(newCamper);
             }
             return inputValue;
