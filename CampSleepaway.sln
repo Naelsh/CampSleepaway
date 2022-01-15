@@ -3,11 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31729.503
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampSleepaway.UI", "CampSleepawayUI\CampSleepaway.UI.csproj", "{E609D82A-8919-4B79-9084-7300441AD6BB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampSleepaway.UI", "CampSleepawayUI\CampSleepaway.UI.csproj", "{E609D82A-8919-4B79-9084-7300441AD6BB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampSleepaway.Data", "Backend\CampSleepaway.Data.csproj", "{239D77C4-1179-4E13-AB3D-9CE7940CB7FB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampSleepaway.Persistence", "Backend\CampSleepaway.Persistence.csproj", "{239D77C4-1179-4E13-AB3D-9CE7940CB7FB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampSleepaway.Domain", "CampSleepaway.Domain\CampSleepaway.Domain.csproj", "{5FE9816B-0CFB-4BAD-BD9C-CBE9303456CA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampSleepaway.Domain", "CampSleepaway.Domain\CampSleepaway.Domain.csproj", "{5FE9816B-0CFB-4BAD-BD9C-CBE9303456CA}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
