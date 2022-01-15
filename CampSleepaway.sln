@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampSleepaway.Test.Units", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CampSleepaway.Persistence", "CampSleepaway.Persistence\CampSleepaway.Persistence.csproj", "{5C7A1B60-676B-4CAA-AE6F-F5833E42924E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CampSleepaway.Application", "CampSleepaway.Application\CampSleepaway.Application.csproj", "{F77CD253-FB7B-4947-9C85-703A8F93B3CC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{5C7A1B60-676B-4CAA-AE6F-F5833E42924E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C7A1B60-676B-4CAA-AE6F-F5833E42924E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C7A1B60-676B-4CAA-AE6F-F5833E42924E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F77CD253-FB7B-4947-9C85-703A8F93B3CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F77CD253-FB7B-4947-9C85-703A8F93B3CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F77CD253-FB7B-4947-9C85-703A8F93B3CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F77CD253-FB7B-4947-9C85-703A8F93B3CC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

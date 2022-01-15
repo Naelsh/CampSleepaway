@@ -14,6 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\CampSleepaway.Application\CampSleepaway.Application.csproj" />
     <ProjectReference Include="..\CampSleepaway.Persistence\CampSleepaway.Persistence.csproj" />
     <ProjectReference Include="..\CampSleepaway.Domain\CampSleepaway.Domain.csproj" />
   </ItemGroup>
