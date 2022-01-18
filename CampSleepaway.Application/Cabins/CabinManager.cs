@@ -37,6 +37,17 @@ namespace CampSleepaway.Application.Cabins
             Cabin cabin = _context.Cabins.Where(x => x.Id == cabinId).First();
             return 1;
         }
-        
+
+        public int AddCabin(Cabin newCabin)
+        {
+            if (newCabin.Name == null) { return 0; }
+            _context.Cabins.Add(newCabin);
+            return _context.SaveChanges();
+        }
+
+        public List<Cabin> GetAllCabins()
+        {
+            return _context.Cabins.Select(x => x).OrderBy(x => x.Id).ToList();
+        }
     }
 }

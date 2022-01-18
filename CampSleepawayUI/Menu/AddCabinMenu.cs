@@ -1,4 +1,6 @@
-﻿using CampSleepaway.Application;
+﻿using CampSleepaway.Application.Cabins;
+using CampSleepaway.Domain.Data;
+using CampSleepaway.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,19 +9,12 @@ using System.Threading.Tasks;
 
 namespace CampSleepaway.UI.Menu
 {
-    class MainMenu : Menu
+    class AddCabinMenu : Menu
     {
-        private readonly List<string> _menuOptions = new ()
+        private readonly List<string> _menuOptions = new()
         {
-            "Seed Data",
-            "Add Camper",
-            "Add Cabin",
-            "Add Camper to Cabin",
-            "Find Camper",
-            "Camper Reports",
-            //"Add Counselor",
-            //"Add Next of Kin",
-            "Exit Application"
+            "Add new Eagle Cabin",
+            "Return to main menu"
         };
 
         public override Menu GetNextMenu(int input)
@@ -27,11 +22,7 @@ namespace CampSleepaway.UI.Menu
             return input switch
             {
                 1 => this,
-                2 => new AddCamperMenu(),
-                3 => new AddCabinMenu(),
-                4 => new AddCamperToCabinMenu(),
-                5 => this,
-                6 => new CamperReportMenu(),
+                2 => new MainMenu(),
                 _ => null,
             };
         }
@@ -41,15 +32,21 @@ namespace CampSleepaway.UI.Menu
             int inputValue = GetIntAboveZeroFromUserInput(_menuOptions.Count);
             if (inputValue == 1)
             {
-                SeedData.CreateSeedData();
+                using var context = new CampSleepawayContext();
+                CabinManager manager = new(context);
+                Cabin newCabin = new()
+                {
+                    Name = "Eagle Cabin"
+                };
+                manager.AddCabin(newCabin);
             }
             return inputValue;
         }
 
         public override void ShowMenu()
         {
-            Console.WriteLine("Welcome to the application for managing the Camp Sleepaway");
-            Console.WriteLine("What would you like to do? Enter the corresponding number");
+            Console.WriteLine("We are now ready to add new cabin");
+            Console.WriteLine("Please select a menu option below");
             for (int menuIndex = 0; menuIndex < _menuOptions.Count; menuIndex++)
             {
                 Console.WriteLine($"{menuIndex + 1}. {_menuOptions[menuIndex]}");

@@ -24,16 +24,16 @@ namespace CampSleepaway.Persistence
         {
             #region ConnectionStrings
             // Laptop
-            //string connectionString =
-            //    @"Data Source=DESKTOP-EJ7V12L\SQLEXPRESS01;" +
-            //    @"Initial Catalog = CampSleepaway;" +
-            //    @"Integrated Security=true";
+            string connectionString =
+            @"Data Source=DESKTOP-EJ7V12L\SQLEXPRESS01;" +
+            @"Initial Catalog = CampSleepaway;" +
+            @"Integrated Security=true";
 
             //Stationär
-            string connectionString =
-                @"Data Source=DESKTOP-JC3MCVE;" +
-                @"Initial Catalog = CampSleepaway;" +
-                @"Integrated Security=true";
+            //string connectionString =
+            //    @"Data Source=DESKTOP-JC3MCVE;" +
+            //    @"Initial Catalog = CampSleepaway;" +
+            //    @"Integrated Security=true";
 
             // Magister
             //string connectionString =
