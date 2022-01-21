@@ -50,5 +50,49 @@ namespace CampSleepaway.Persistence
                 optionsBuilder.UseSqlServer(connectionString);
             }
         }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            SetupCamperCabin(modelBuilder);
+            SetupCounselorCabin(modelBuilder);
+            //SetupVisits(modelBuilder);
+            SetupCamperNextOfKin(modelBuilder);
+        }
+        private static void SetupCamperNextOfKin(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Camper>()
+                            .HasMany(camper => camper.NextOfKins)
+                            .WithMany(nextOfKin => nextOfKin.Children)
+                            .UsingEntity<CamperNextOfKin>
+                            (v => v.HasOne<NextOfKin>().WithMany(),
+                            v => v.HasOne<Camper>().WithMany());
+        }
+        //private static void SetupVisits(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Camper>()
+        //                    .HasMany(camper => camper.NextOfKins)
+        //                    .WithMany(nextOfKin => nextOfKin.Children)
+        //                    .UsingEntity<Visit>
+        //                    (v => v.HasOne<NextOfKin>().WithMany(),
+        //                    v => v.HasOne<Camper>().WithMany());
+        //}
+        private static void SetupCounselorCabin(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cabin>()
+                            .HasMany(cabin => cabin.Counselors)
+                            .WithMany(counselor => counselor.CabinStays)
+                            .UsingEntity<CabinCounselorStay>
+                            (ccs => ccs.HasOne<Counselor>().WithMany(),
+                            ccs => ccs.HasOne<Cabin>().WithMany());
+        }
+        private static void SetupCamperCabin(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Cabin>()
+                         .HasMany(cabin => cabin.Campers)
+                         .WithMany(camper => camper.CabinStays)
+                         .UsingEntity<CabinCamperStay>
+                          (ccs => ccs.HasOne<Camper>().WithMany(),
+                           ccs => ccs.HasOne<Cabin>().WithMany());
+        }
     }
 }
