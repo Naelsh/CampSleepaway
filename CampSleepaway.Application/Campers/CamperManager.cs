@@ -24,7 +24,7 @@ namespace CampSleepaway.Application.Campers
 
         public List<Camper> GetAllCampers()
         {
-            return _context.Campers.Select(x => x).OrderBy(x => x.Id).ToList();
+            return _context.Campers.Select(x => x).ToList();
         }
 
         public List<Camper> GetCampersByName(string firstName)
@@ -37,22 +37,9 @@ namespace CampSleepaway.Application.Campers
             throw new NotImplementedException();
         }
 
-        public int AddCamperToCabin(int camperId, int cabinId)
-        {
-            var cabin = _context.Cabins.Where(x => x.Id == cabinId).FirstOrDefault();
-            var camper = _context.Campers.Where(x => x.Id == camperId).FirstOrDefault();
-            camper.CabinStays.Add(cabin);
-            var result = _context.SaveChanges();
-            return result;
-        }
-
-        public int AddNextOfKinToCamper(int camperId, int nextOfKinId, string relationship)
-        {
-            var nextOfKin = _context.NextOfKins.Where(x => x.Id == nextOfKinId).FirstOrDefault();
-            var camper = _context.Campers.Where(x => x.Id == camperId).FirstOrDefault();
-            camper.NextOfKins.Add(nextOfKin);
-            var result = _context.SaveChanges();
-            return result;
-        }
+        //public int AddNextOfKinToCamper(Camper camper, NextOfKin nextOfKins, string relationship)
+        //{
+        //    return 0;
+        //}
     }
 }
