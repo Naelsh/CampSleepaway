@@ -2,6 +2,7 @@
 using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CampSleepaway.Application.Cabins
@@ -30,7 +31,7 @@ namespace CampSleepaway.Application.Cabins
 
         public int AddCamperToCabin(int camperId, int cabinId, DateTime startDate, DateTime endDate)
         {
-            if (IsCabinFull(cabinId)) { return 0; }
+            if (IsCabinFull(cabinId, startDate)) { return 0; }
             if (!CabinHasCouncelor(cabinId, startDate, endDate)) { return 0; }
             _context.CabinCamperStays.Add(new CabinCamperStay()
             {
@@ -77,11 +78,19 @@ namespace CampSleepaway.Application.Cabins
             return amountInSpan > 0;
         }
 
-        private bool IsCabinFull(int cabinId)
+        private bool IsCabinFull(int cabinId, DateTime date)
         {
             int maxAmount = 4;
-            int amountInCabin = _context.CabinCamperStays.Where(ccs => ccs.CabinId == cabinId).Count();
+            int amountInCabin = GetActiveCampersInCabinById(cabinId, date).Count();
             return amountInCabin >= maxAmount;
+        }
+
+        public IQueryable<Camper> GetActiveCampersInCabinById(int cabinId, DateTime date)
+        {
+            return (from camper in _context.Campers
+                     join ccs in _context.CabinCamperStays on camper.Id equals ccs.CamperId
+                     where ccs.CabinId == cabinId && ccs.StartTime <= date && date <= ccs.EndTime
+                     select camper);
         }
     }
 }
