@@ -27,7 +27,7 @@ namespace CampSleepaway.Test.Units.Application
         }
 
         [Test]
-        public void CanInsertCAmperIntoDatabase()
+        public void CanInsertCamperIntoDatabase()
         {
             var expected = 1;
 

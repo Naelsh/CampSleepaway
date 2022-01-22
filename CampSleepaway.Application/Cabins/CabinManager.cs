@@ -21,8 +21,7 @@ namespace CampSleepaway.Application.Cabins
             }
             Cabin cabin = new () { Name = name};
             _context.Cabins.Add(cabin);
-            var result = _context.SaveChanges();
-            return result;
+            return _context.SaveChanges();
         }
 
         public Cabin GetCabinById(int id)
@@ -31,12 +30,24 @@ namespace CampSleepaway.Application.Cabins
             return result.First();
         }
 
-        public int AddCamperToCabin(int camperId, int cabinId)
+        public int AddCamperToCabin(int camperId, int cabinId, DateTime startDate, DateTime endDate)
         {
-            Camper camper = _context.Campers.Where(x => x.Id == camperId).First();
-            Cabin cabin = _context.Cabins.Where(x => x.Id == cabinId).First();
-            return 1;
+            if (IsCabinFull(cabinId)) { return 0; }
+            _context.CabinCamperStays.Add(new CabinCamperStay()
+            {
+                CabinId = cabinId,
+                CamperId = camperId,
+                StartTime = startDate,
+                EndTime = endDate
+            });
+            return _context.SaveChanges();
         }
-        
+
+        private bool IsCabinFull(int cabinId)
+        {
+            int maxAmount = 4;
+            int amountInCabin = _context.CabinCamperStays.Where(ccs => ccs.CabinId == cabinId).Count();
+            return amountInCabin >= maxAmount;
+        }
     }
 }
