@@ -86,6 +86,100 @@ namespace CampSleepaway.Test.Units.Application
         }
 
         [Test]
+        public void AddCounselorToCabin_CounselorAlreadyResponsibleForCabin()
+        {
+            int expectedAmountOfConselors = 1;
+            using var context = TestAddons.GetTestContext("CounselorResponsibleAnotherToCabin");
+            var cabinManager = new CabinManager(context);
+            cabinManager.AddCabinByName("Cabin");
+
+            Counselor counselor = new Counselor()
+            {
+                FirstName = "Councelor",
+                LastName = "Counselor",
+                Title = "Lord",
+                PhoneNumber = "010-123456"
+            };
+            CounselorManager counselorManager = new(context);
+            counselorManager.AddCounselor(counselor);
+
+            cabinManager.AddCounselorToCabinById(counselor.Id, 1,
+                new DateTime(2022, 01, 01), new DateTime(2022, 12, 01));
+
+            cabinManager.AddCabinByName("SecondCabin");
+            cabinManager.AddCounselorToCabinById(counselor.Id, 2,
+                new DateTime(2022, 01, 02), new DateTime(2022, 11, 01));
+
+            Assert.AreEqual(expectedAmountOfConselors,
+                context.CabinCounselorStays.Where(ccs => ccs.CounselorId == counselor.Id).Count());
+        }
+
+        [Test]
+        public void AddCounselorToCabinWhichHasCouncelor()
+        {
+            int expectedAmountOfCounselor2 = 0;
+            using var context = TestAddons.GetTestContext("CounselorResponsibleToOccupiedCabin");
+            var cabinManager = new CabinManager(context);
+            cabinManager.AddCabinByName("Cabin");
+
+            Counselor counselor = new Counselor()
+            {
+                FirstName = "Councelor",
+                LastName = "Counselor",
+                Title = "Lord",
+                PhoneNumber = "010-123456"
+            };
+            Counselor counselor2 = new Counselor()
+            {
+                FirstName = "Councelor2",
+                LastName = "Counselor2",
+                Title = "Lord",
+                PhoneNumber = "010-123456"
+            };
+            CounselorManager counselorManager = new(context);
+            counselorManager.AddCounselor(counselor);
+            counselorManager.AddCounselor(counselor2);
+
+            cabinManager.AddCounselorToCabinById(counselor.Id, 1,
+                new DateTime(2022, 01, 01), new DateTime(2022, 12, 01));
+
+            cabinManager.AddCounselorToCabinById(counselor2.Id, 1,
+                new DateTime(2022, 01, 02), new DateTime(2022, 11, 01));
+
+            Assert.AreEqual(expectedAmountOfCounselor2,
+                context.CabinCounselorStays.Where(ccs => ccs.CounselorId == counselor2.Id).Count());
+        }
+
+        [Test]
+        public void AddCounselorToCabin_CounselorWasResponsibleForPreviousCabin()
+        {
+            int expectedAmountOfConselors = 2;
+            using var context = TestAddons.GetTestContext("CounselorMultiResponsibleToCabin");
+            var cabinManager = new CabinManager(context);
+            cabinManager.AddCabinByName("Cabin");
+
+            Counselor counselor = new Counselor()
+            {
+                FirstName = "Councelor",
+                LastName = "Counselor",
+                Title = "Lord",
+                PhoneNumber = "010-123456"
+            };
+            CounselorManager counselorManager = new(context);
+            counselorManager.AddCounselor(counselor);
+
+            cabinManager.AddCounselorToCabinById(counselor.Id, 1,
+                new DateTime(2022, 01, 01), new DateTime(2022, 02, 01));
+
+            cabinManager.AddCabinByName("SecondCabin");
+            cabinManager.AddCounselorToCabinById(counselor.Id, 2,
+                new DateTime(2022, 02, 02), new DateTime(2022, 03, 01));
+
+            Assert.AreEqual(expectedAmountOfConselors,
+                context.CabinCounselorStays.Where(ccs => ccs.CounselorId == counselor.Id).Count());
+        }
+
+        [Test]
         public void AddCamperToCabin()
         {
             int amountOfresidents = 1;
@@ -173,6 +267,8 @@ namespace CampSleepaway.Test.Units.Application
                 context.Cabins.First().Campers
                 .Where(c => c.FirstName == camperNotInCabinFirstName).ToList().Count);
         }
+
+        
 
     }
 }

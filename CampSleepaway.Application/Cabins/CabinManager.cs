@@ -1,4 +1,5 @@
-﻿using CampSleepaway.Domain.Data;
+﻿using CampSleepaway.Application.Counselors;
+using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
 using System.Linq;
@@ -44,6 +45,7 @@ namespace CampSleepaway.Application.Cabins
         public int AddCounselorToCabinById(int counselorId, int cabinId, DateTime start, DateTime end)
         {
             if (CabinHasCouncelor(cabinId)) { return 0; }
+            if (!IsCouncelorAvailableForNewCabin(counselorId, start, end)) { return 0; }
             _context.CabinCounselorStays.Add(new CabinCounselorStay()
             {
                 CounselorId = counselorId,
@@ -52,6 +54,16 @@ namespace CampSleepaway.Application.Cabins
                 EndTime = end
             });
             return _context.SaveChanges();
+        }
+
+        private bool IsCouncelorAvailableForNewCabin(int counselorId, DateTime start, DateTime end)
+        {
+            int amountInSpan =
+                _context.CabinCounselorStays.Where(ccs => ccs.CounselorId == counselorId)
+                .Where(ccs => (ccs.StartTime <= start && start <= ccs.EndTime)
+                || (ccs.StartTime <= end && end <= ccs.EndTime))
+                .Count();
+            return (amountInSpan) == 0;
         }
 
         private bool CabinHasCouncelor(int cabinId)
