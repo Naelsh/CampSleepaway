@@ -27,16 +27,16 @@ namespace CampSleepaway.Persistence
         {
             #region ConnectionStrings
             // Laptop
-            //string connectionString =
-            //    @"Data Source=DESKTOP-EJ7V12L\SQLEXPRESS01;" +
-            //    @"Initial Catalog = CampSleepaway;" +
-            //    @"Integrated Security=true";
-
-            //Stationär
             string connectionString =
-                @"Data Source=DESKTOP-JC3MCVE;" +
+                @"Data Source=DESKTOP-EJ7V12L\SQLEXPRESS01;" +
                 @"Initial Catalog = CampSleepaway;" +
                 @"Integrated Security=true";
+
+            //Stationär
+            //string connectionString =
+            //    @"Data Source=DESKTOP-JC3MCVE;" +
+            //    @"Initial Catalog = CampSleepaway;" +
+            //    @"Integrated Security=true";
 
             // Magister
             //string connectionString =
@@ -62,7 +62,7 @@ namespace CampSleepaway.Persistence
         {
             modelBuilder.Entity<Camper>()
                             .HasMany(camper => camper.NextOfKins)
-                            .WithMany(nextOfKin => nextOfKin.Children)
+                            .WithMany(nextOfKin => nextOfKin.Camper)
                             .UsingEntity<CamperNextOfKin>
                             (v => v.HasOne<NextOfKin>().WithMany(),
                             v => v.HasOne<Camper>().WithMany());

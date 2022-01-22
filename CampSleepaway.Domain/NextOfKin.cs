@@ -17,6 +17,6 @@ namespace CampSleepaway.Domain.Data
         [MaxLength(50)]
         [Required]
         public string MailAddress { get; set; }
-        public List<Camper> Children { get; set; } = new List<Camper>();
+        public List<Camper> Camper { get; set; } = new List<Camper>();
     }
 }

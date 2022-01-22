@@ -31,7 +31,7 @@ namespace CampSleepaway.Application
                     LastName = $"NextOfKin-LN{nokIndex}",
                     MailAddress = $"FN{nokIndex}.LN{nokIndex}@gmail.com"
                 };
-                newNextOfKin.Children.Add(context.Campers.FirstOrDefault());
+                newNextOfKin.Camper.Add(context.Campers.FirstOrDefault());
                 context.NextOfKins.Add(newNextOfKin);
             }
         }

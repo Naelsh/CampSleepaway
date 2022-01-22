@@ -1,4 +1,5 @@
-﻿using CampSleepaway.Application.NextOfKins;
+﻿using CampSleepaway.Application.Campers;
+using CampSleepaway.Application.NextOfKins;
 using CampSleepaway.Domain.Data;
 using NUnit.Framework;
 using System;
@@ -16,10 +17,10 @@ namespace CampSleepaway.Test.Units.Application
         {
             int expectedEntryChangesInDB = 0;
 
-            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("AddNextOfKinByName_AllPropsNull_NoChange");
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin();
-            int result = nextOfKinManager.AddNextOfKin(nextOfKin);
+            int result = nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
 
             Assert.AreEqual(expectedEntryChangesInDB, result);
         }
@@ -29,7 +30,7 @@ namespace CampSleepaway.Test.Units.Application
         {
             int expectedEntryChangesInDB = 0;
 
-            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("AddNextOfKinByName_FirstNameNull_NoChange");
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin()
             {
@@ -41,8 +42,8 @@ namespace CampSleepaway.Test.Units.Application
                 LastName = "CamperLastName",
                 DateOfBirth = new DateTime(2012, 01, 01)
             };
-            nextOfKin.Children.Add(camper);
-            int result = nextOfKinManager.AddNextOfKin(nextOfKin);
+            nextOfKin.Camper.Add(camper);
+            int result = nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
 
             Assert.AreEqual(expectedEntryChangesInDB, result);
         }
@@ -52,7 +53,7 @@ namespace CampSleepaway.Test.Units.Application
         {
             int expectedEntryChangesInDB = 0;
 
-            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("AddNextOfKinByName_LastNameNull_NoChange");
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin()
             {
@@ -64,8 +65,8 @@ namespace CampSleepaway.Test.Units.Application
                 LastName = "CamperLastName",
                 DateOfBirth = new DateTime(2012, 01, 01)
             };
-            nextOfKin.Children.Add(camper);
-            int result = nextOfKinManager.AddNextOfKin(nextOfKin);
+            nextOfKin.Camper.Add(camper);
+            int result = nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
 
             Assert.AreEqual(expectedEntryChangesInDB, result);
         }
@@ -75,14 +76,14 @@ namespace CampSleepaway.Test.Units.Application
         {
             int expectedEntryChangesInDB = 0;
 
-            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("AddNextOfKinByName_NoChildren_NoChange");
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin()
             {
                 FirstName = "NextFirstName",
                 LastName = "NextLastName"
             };
-            int result = nextOfKinManager.AddNextOfKin(nextOfKin);
+            int result = nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
 
             Assert.AreEqual(expectedEntryChangesInDB, result);
         }
@@ -90,9 +91,18 @@ namespace CampSleepaway.Test.Units.Application
         [Test]
         public void CanInsertCabinIntoDatabase()
         {
-            int expectedEntryChangesInDB = 3;
+            int expectedEntryChangesInDB = 2;
 
-            using var context = TestAddons.GetTestContext("AddNextOfKinBy");
+            using var context = TestAddons.GetTestContext("CanInsertCabinIntoDatabase");
+
+            var camper = new Camper()
+            {
+                FirstName = "CamperFirstName",
+                LastName = "CamperLastName",
+                DateOfBirth = new DateTime(2012, 01, 01)
+            };
+            CamperManager camperManager = new(context);
+            camperManager.AddCamper(camper);
 
             var nextOfKinManager = new NextOfKinManager(context);
             var nextOfKin = new NextOfKin()
@@ -100,16 +110,56 @@ namespace CampSleepaway.Test.Units.Application
                 FirstName = "NextFirstName",
                 LastName = "NextLastName"
             };
+            nextOfKin.Camper.Add(camper);
+            int result = nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
+
+            Assert.AreEqual(expectedEntryChangesInDB, result);
+        }
+
+        [Test]
+        public void AddNewChildRelationship()
+        {
+            string expectedNextOfKinName = "NextFirstName";
+            int expectedRelationships = 1;
+            string expectedRelationship = "Best Parent";
+
+            using var context = TestAddons.GetTestContext("AddNewChildRelationship");
+
             var camper = new Camper()
             {
                 FirstName = "CamperFirstName",
                 LastName = "CamperLastName",
                 DateOfBirth = new DateTime(2012, 01, 01)
             };
-            nextOfKin.Children.Add(camper);
-            int result = nextOfKinManager.AddNextOfKin(nextOfKin);
+            CamperManager camperManager = new(context);
+            camperManager.AddCamper(camper);
 
-            Assert.AreEqual(expectedEntryChangesInDB, result);
+            var nextOfKinManager = new NextOfKinManager(context);
+            var nextOfKin = new NextOfKin()
+            {
+                FirstName = "NextFirstName",
+                LastName = "NextLastName"
+            };
+            nextOfKin.Camper.Add(camper);
+            nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
+
+            var newCamper = new Camper()
+            {
+                FirstName = "Favorite Child",
+                LastName = "I Promese",
+                DateOfBirth = new DateTime(2011, 11, 11)
+            };
+            camperManager.AddCamper(newCamper);
+
+            nextOfKinManager.AddNextOfKinRelationship(nextOfKin.Id, newCamper.Id, "Best Parent");
+
+            Assert.AreEqual(expectedNextOfKinName,
+                context.Campers.FirstOrDefault(c => c.Id == 2)
+                .NextOfKins.FirstOrDefault().FirstName);
+            Assert.AreEqual(expectedRelationships,
+                context.CamperNextOfKins.Where(cnok => cnok.CamperId == newCamper.Id).Count());
+            Assert.AreEqual(expectedRelationship,
+                context.CamperNextOfKins.FirstOrDefault(cnok => cnok.CamperId == newCamper.Id).NextOfKinRelationship);
         }
     }
 }
