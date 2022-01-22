@@ -87,14 +87,14 @@ namespace CampSleepaway.Application
         private static void AddCounserlorsToCabins(CampSleepawayContext context)
         {
             CabinManager cabinManager = new (context);
-            for (int counserlorIndex = 0; counserlorIndex < 3; counserlorIndex++)
+            for (int counselorIndex = 0; counselorIndex < 3; counselorIndex++)
             {
                 DateTime startDate = new DateTime(2022,01,01);
                 DateTime endDate = new DateTime(2022,12,01);
 
                 cabinManager.AddCounselorToCabinById(
-                    counserlorIndex + 1,
-                    counserlorIndex + 1,
+                    counselorIndex + 1,
+                    counselorIndex + 1,
                     startDate,
                     endDate);
             }
