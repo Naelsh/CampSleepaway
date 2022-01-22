@@ -104,8 +104,8 @@ namespace CampSleepaway.Application
                 DateTime endDate = new DateTime(2022,12,01);
 
                 cabinManager.AddCounselorToCabinById(
-                    counselorIndex + 1,
-                    counselorIndex + 1,
+                    _counselorIds[counselorIndex],
+                    _cabinIds[counselorIndex],
                     startDate,
                     endDate);
             }
