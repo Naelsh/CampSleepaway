@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace CampSleepaway.UI.Menu
 {
-    class CamperReportMenu : Menu
+    class ReportMenu : Menu
     {
         private readonly List<string> _menuOptions = new()
         {

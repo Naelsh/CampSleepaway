@@ -42,63 +42,78 @@ namespace CampSleepaway.UI.Menu
             switch (inputValue)
             {
                 case 1:
-                    AskForSelection();
-                    Console.WriteLine("Select Next of kin");
-                    ListNextOfKins();
-                    int nextOfKinId = GetIntAboveZeroFromUserInput(int.MaxValue);
-                    Console.WriteLine("Select Camper");
-                    ListCampers();
-                    int camperId = GetIntAboveZeroFromUserInput(int.MaxValue);
-                    Console.WriteLine("What is the next of kins relationship to the Camper?");
-                    string relationship = Console.ReadLine();
-                    AddNextOfKinToCamperRelationship(nextOfKinId, camperId, relationship);
+                    ConnectNextOfKinToCamper();
                     break;
                 case 2:
-                    AskForSelection();
-                    Console.WriteLine("Select Camper");
-                    ListCampers();
-                    int camperToCabinId = GetIntAboveZeroFromUserInput(int.MaxValue);
-                    Console.WriteLine("Select Cabin");
-                    ListCabins();
-                    int cabinId = GetIntAboveZeroFromUserInput(int.MaxValue);
-                    Console.WriteLine("From what date is the camper supposed to stay?");
-                    Console.WriteLine("Year:");
-                    int year = GetIntAboveZeroFromUserInput(2023);
-                    Console.WriteLine("Month:");
-                    int month = GetIntAboveZeroFromUserInput(12);
-                    Console.WriteLine("Day:");
-                    int day = GetIntAboveZeroFromUserInput(28);
-                    Console.WriteLine("For how many days?");
-                    int numDays = GetIntAboveZeroFromUserInput(int.MaxValue);
-                    DateTime startDate = new DateTime(year, month, day);
-                    DateTime endDate = startDate.AddDays(numDays);
-                    AddCamperToCabin(camperToCabinId, cabinId, startDate, endDate);
+                    AddCamperToCabin();
                     break;
                 case 3:
-                    AskForSelection();
-                    Console.WriteLine("Select Counselor");
-                    ListCounselors();
-                    int counselorToCabinId = GetIntAboveZeroFromUserInput(int.MaxValue);
-                    Console.WriteLine("Select Cabin");
-                    ListCabins();
-                    int counselorsCabinId = GetIntAboveZeroFromUserInput(int.MaxValue);
-                    Console.WriteLine("From what date is the cunselor supposed to be responsible?");
-                    Console.WriteLine("Year:");
-                    int counselorYear = GetIntAboveZeroFromUserInput(2023);
-                    Console.WriteLine("Month:");
-                    int counselorMonth = GetIntAboveZeroFromUserInput(12);
-                    Console.WriteLine("Day:");
-                    int counselorDay = GetIntAboveZeroFromUserInput(28);
-                    Console.WriteLine("For how many days?");
-                    int counselorNumDays = GetIntAboveZeroFromUserInput(int.MaxValue);
-                    DateTime counselorStartDate = new DateTime(counselorYear, counselorMonth, counselorDay);
-                    DateTime counselorEndDate = counselorStartDate.AddDays(counselorNumDays);
-                    AddCounselorToCabin(counselorToCabinId, counselorsCabinId, counselorStartDate, counselorEndDate);
+                    AddCounselorToCabin();
                     break;
                 default:
                     break;
             }
             return inputValue;
+        }
+
+        private void AddCounselorToCabin()
+        {
+            AskForSelection();
+            Console.WriteLine("Select Counselor");
+            ListCounselors();
+            int counselorToCabinId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("Select Cabin");
+            ListCabins();
+            int counselorsCabinId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("From what date is the cunselor supposed to be responsible?");
+            Console.WriteLine("Year:");
+            int counselorYear = GetIntAboveZeroFromUserInput(2023);
+            Console.WriteLine("Month:");
+            int counselorMonth = GetIntAboveZeroFromUserInput(12);
+            Console.WriteLine("Day:");
+            int counselorDay = GetIntAboveZeroFromUserInput(28);
+            Console.WriteLine("For how many days?");
+            int counselorNumDays = GetIntAboveZeroFromUserInput(int.MaxValue);
+            DateTime counselorStartDate = new DateTime(counselorYear, counselorMonth, counselorDay);
+            DateTime counselorEndDate = counselorStartDate.AddDays(counselorNumDays);
+            AddCounselorToCabin(counselorToCabinId, counselorsCabinId, counselorStartDate, counselorEndDate);
+        }
+
+        private void AddCamperToCabin()
+        {
+            AskForSelection();
+            Console.WriteLine("Select Camper");
+            ListCampers();
+            int camperToCabinId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("Select Cabin");
+            ListCabins();
+            int cabinId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("From what date is the camper supposed to stay?");
+            Console.WriteLine("Year:");
+            int year = GetIntAboveZeroFromUserInput(2023);
+            Console.WriteLine("Month:");
+            int month = GetIntAboveZeroFromUserInput(12);
+            Console.WriteLine("Day:");
+            int day = GetIntAboveZeroFromUserInput(28);
+            Console.WriteLine("For how many days?");
+            int numDays = GetIntAboveZeroFromUserInput(int.MaxValue);
+            DateTime startDate = new DateTime(year, month, day);
+            DateTime endDate = startDate.AddDays(numDays);
+            AddCamperToCabin(camperToCabinId, cabinId, startDate, endDate);
+        }
+
+        private void ConnectNextOfKinToCamper()
+        {
+            AskForSelection();
+            Console.WriteLine("Select Next of kin");
+            ListNextOfKins();
+            int nextOfKinId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("Select Camper");
+            ListCampers();
+            int camperId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("What is the next of kins relationship to the Camper?");
+            string relationship = Console.ReadLine();
+            AddNextOfKinToCamperRelationship(nextOfKinId, camperId, relationship);
         }
 
         private void AddCounselorToCabin(int counselorId, int cabinId, DateTime start, DateTime end)

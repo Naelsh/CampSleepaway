@@ -55,58 +55,78 @@ namespace CampSleepaway.UI.Menu
                     AddCamper("10y FN", "10y LN", DateTime.Now.AddYears(-10));
                     break;
                 case 2:
-                    Console.WriteLine("Enter first name");
-                    string firstName = Console.ReadLine();
-                    Console.WriteLine("Enter last name");
-                    string lastName = Console.ReadLine();
-                    Console.WriteLine("What year is the camper born?");
-                    int year = GetIntAboveZeroFromUserInput(2022);
-                    Console.WriteLine("What month is the camper born?");
-                    int month = GetIntAboveZeroFromUserInput(12);
-                    Console.WriteLine("What day is the camper born?");
-                    int day = GetIntAboveZeroFromUserInput(28);
-                    AddCamper(firstName, lastName, new DateTime(year, month, day));
+                    AddCustomCamper();
                     break;
                 case 3:
                     AddNextOfKin("NewNext FN", "NexNext LN", "test@test.test", _context.Campers.FirstOrDefault().Id, "Guardian");
                     break;
                 case 4:
-                    Console.WriteLine("Enter first name");
-                    string nextOfKinFirstName = Console.ReadLine();
-                    Console.WriteLine("Enter last name");
-                    string nextOfKinLastName = Console.ReadLine();
-                    Console.WriteLine("Mail address");
-                    string mailAddress = Console.ReadLine();
-                    Console.WriteLine("Enter ID of one camper the next of kin is responsible for");
-                    int camperId = GetIntAboveZeroFromUserInput(int.MaxValue);
-                    Console.WriteLine("What relationship does the next of kin have to the camper?");
-                    string relationship = Console.ReadLine();
-                    AddNextOfKin(nextOfKinFirstName, nextOfKinLastName, mailAddress, camperId, relationship);
+                    AddCustomNextOfKin();
                     break;
                 case 5:
                     AddCabin("New Cabin");
                     break;
                 case 6:
-                    Console.WriteLine("What is the name of the Cabin?");
-                    string cabinName = Console.ReadLine();
-                    AddCabin(cabinName);
+                    AddCustomCabin();
                     break;
                 case 7:
                     AddCounselor("Counselor FN", "Counselor LN", "Cabin King");
                     break;
                 case 8:
-                    Console.WriteLine("Enter first name");
-                    string counselorFirstName = Console.ReadLine();
-                    Console.WriteLine("Enter last name");
-                    string counselorLastName = Console.ReadLine();
-                    Console.WriteLine("Enter the title for the counselor");
-                    string title = Console.ReadLine();
-                    AddCounselor(counselorFirstName, counselorLastName, title);
+                    AddCustomCounselor();
                     break;
                 default:
                     break;
             }
             return inputValue;
+        }
+
+        private void AddCustomCounselor()
+        {
+            Console.WriteLine("Enter first name");
+            string counselorFirstName = Console.ReadLine();
+            Console.WriteLine("Enter last name");
+            string counselorLastName = Console.ReadLine();
+            Console.WriteLine("Enter the title for the counselor");
+            string title = Console.ReadLine();
+            AddCounselor(counselorFirstName, counselorLastName, title);
+        }
+
+        private void AddCustomCabin()
+        {
+            Console.WriteLine("What is the name of the Cabin?");
+            string cabinName = Console.ReadLine();
+            AddCabin(cabinName);
+        }
+
+        private void AddCustomNextOfKin()
+        {
+            Console.WriteLine("Enter first name");
+            string nextOfKinFirstName = Console.ReadLine();
+            Console.WriteLine("Enter last name");
+            string nextOfKinLastName = Console.ReadLine();
+            Console.WriteLine("Mail address");
+            string mailAddress = Console.ReadLine();
+            Console.WriteLine("Enter ID of one camper the next of kin is responsible for");
+            int camperId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("What relationship does the next of kin have to the camper?");
+            string relationship = Console.ReadLine();
+            AddNextOfKin(nextOfKinFirstName, nextOfKinLastName, mailAddress, camperId, relationship);
+        }
+
+        private void AddCustomCamper()
+        {
+            Console.WriteLine("Enter first name");
+            string firstName = Console.ReadLine();
+            Console.WriteLine("Enter last name");
+            string lastName = Console.ReadLine();
+            Console.WriteLine("What year is the camper born?");
+            int year = GetIntAboveZeroFromUserInput(2022);
+            Console.WriteLine("What month is the camper born?");
+            int month = GetIntAboveZeroFromUserInput(12);
+            Console.WriteLine("What day is the camper born?");
+            int day = GetIntAboveZeroFromUserInput(28);
+            AddCamper(firstName, lastName, new DateTime(year, month, day));
         }
 
         private void AddCounselor(string firstName, string lastName, string title)
