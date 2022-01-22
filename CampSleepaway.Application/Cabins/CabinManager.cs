@@ -1,5 +1,4 @@
-﻿using CampSleepaway.Application.Counselors;
-using CampSleepaway.Domain.Data;
+﻿using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
 using System.Collections.Generic;
