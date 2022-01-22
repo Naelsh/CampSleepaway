@@ -5,13 +5,18 @@ using CampSleepaway.Application.NextOfKins;
 using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace CampSleepaway.Application
 {
     public static class SeedData
     {
-        static int _amountOfCampers = 18;
+        static readonly int _amountOfCampers = 18;
+        static readonly List<int> _cabinIds = new List<int>();
+        static readonly List<int> _camperIds = new List<int>();
+        static readonly List<int> _counselorIds = new List<int>();
+        static readonly List<int> _nextOfKinIds = new List<int>();
 
         public static void CreateSeedData()
         {
@@ -30,6 +35,7 @@ namespace CampSleepaway.Application
             for (int cabinIndex = 0; cabinIndex < 3; cabinIndex++)
             {
                 cabinManager.AddCabinByName($"Cabin name: {cabinIndex}");
+                _cabinIds.Add(context.Cabins.First(c => c.Name == $"Cabin name: {cabinIndex}").Id);
             }
         }
 
@@ -46,6 +52,8 @@ namespace CampSleepaway.Application
                     PhoneNumber = "012345678"
                 };
                 counselorManager.AddCounselor(counselor);
+
+                _counselorIds.Add(counselor.Id);
             }
         }
 
@@ -62,12 +70,13 @@ namespace CampSleepaway.Application
                         DateOfBirth = new DateTime(2012, Math.Clamp(camperIndex, 1, 12), camperIndex + 1)
                     };
                 camperManager.AddCamper(newCamper);
+
+                _camperIds.Add(newCamper.Id);
             }
         }
 
         private static void CreateNextOfKins(CampSleepawayContext context)
         {
-            var camperIds = context.Campers.Select(c => new { Id = c.Id });
             for (int nokIndex = 0; nokIndex < 5; nokIndex++)
             {
                 var newNextOfKin = new NextOfKin()
@@ -77,10 +86,12 @@ namespace CampSleepaway.Application
                     MailAddress = $"FN{nokIndex}.LN{nokIndex}@gmail.com"
                 };
 
-                newNextOfKin.Campers.Add(context.Campers.FirstOrDefault(c => c.FirstName == $"Camper-FN{nokIndex}"));
+                newNextOfKin.Campers.Add(context.Campers.FirstOrDefault(c => c.Id == _camperIds[nokIndex]));
 
                 NextOfKinManager nextOfKinManager = new(context);
                 nextOfKinManager.AddNextOfKin(newNextOfKin, "Guardian");
+
+                _nextOfKinIds.Add(newNextOfKin.Id);
             }   
         }
 
@@ -104,26 +115,26 @@ namespace CampSleepaway.Application
         {
             CabinManager cabinManager = new CabinManager(context);
             // active
-            cabinManager.AddCamperToCabin(1, 1, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(2, 1, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(3, 1, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(4, 1, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(5, 2, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(6, 2, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(7, 2, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(8, 2, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(9, 3, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(10, 3, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(11, 3, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
-            cabinManager.AddCamperToCabin(12, 3, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[0], _cabinIds[0], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[1], _cabinIds[0], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[2], _cabinIds[0], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[3], _cabinIds[0], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[4], _cabinIds[1], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[5], _cabinIds[1], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[6], _cabinIds[1], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[7], _cabinIds[1], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[8], _cabinIds[2], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[9], _cabinIds[2], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[10], _cabinIds[2], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(_camperIds[11], _cabinIds[2], new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
             
             // previous 
-            cabinManager.AddCamperToCabin(13, 3, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
-            cabinManager.AddCamperToCabin(14, 3, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
-            cabinManager.AddCamperToCabin(15, 2, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
-            cabinManager.AddCamperToCabin(16, 2, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
-            cabinManager.AddCamperToCabin(17, 1, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
-            cabinManager.AddCamperToCabin(18, 1, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(_camperIds[12], _cabinIds[0], new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(_camperIds[13], _cabinIds[0], new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(_camperIds[14], _cabinIds[1], new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(_camperIds[15], _cabinIds[1], new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(_camperIds[16], _cabinIds[2], new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(_camperIds[17], _cabinIds[2], new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
         }
     }
 }
