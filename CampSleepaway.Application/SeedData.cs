@@ -14,6 +14,8 @@ namespace CampSleepaway.Application
 {
     public static class SeedData
     {
+        static int _amountOfCampers = 18;
+
         public static void CreateSeedData()
         {
             var context = new CampSleepawayContext();
@@ -53,7 +55,7 @@ namespace CampSleepaway.Application
         private static void CreateCampers(CampSleepawayContext context)
         {
             CamperManager camperManager = new(context);
-            for (int camperIndex = 0; camperIndex < 18; camperIndex++)
+            for (int camperIndex = 0; camperIndex < _amountOfCampers; camperIndex++)
             {
                 var newCamper = 
                     new Camper()
@@ -101,35 +103,30 @@ namespace CampSleepaway.Application
             }
         }
 
-        private static void SetRandomStartAndEndDate(out DateTime startDate, out DateTime endDate)
-        {
-            Random random = new Random();
-            int startYear = random.Next(2021, 2022);
-            int startMonth = random.Next(1, 12);
-            int startDay = random.Next(1, 28);
-
-            int endYear = random.Next(2021, 2022);
-            int endMonth = random.Next(1, 12);
-            int endDay = random.Next(1, 28);
-
-            startDate = new DateTime(startYear, startMonth, startDay);
-            endDate = new DateTime(endYear, endMonth, endDay);
-
-            if (startDate.CompareTo(endDate) > 0)
-            {
-                DateTime temp = startDate;
-                startDate = endDate;
-                endDate = temp;
-            }
-            else if (startDate.CompareTo(endDate) == 0)
-            {
-                endDate.AddDays(1);
-            }
-        }
-
         private static void AddCampersToCabin(CampSleepawayContext context)
         {
-            throw new NotImplementedException();
+            CabinManager cabinManager = new CabinManager(context);
+            // active
+            cabinManager.AddCamperToCabin(1, 1, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(2, 1, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(3, 1, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(4, 1, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(5, 2, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(6, 2, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(7, 2, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(8, 2, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(9, 3, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(10, 3, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(11, 3, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            cabinManager.AddCamperToCabin(12, 3, new DateTime(2022, 02, 01), new DateTime(2022, 04, 01));
+            
+            // previous 
+            cabinManager.AddCamperToCabin(13, 3, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(14, 3, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(15, 2, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(16, 2, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(17, 1, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+            cabinManager.AddCamperToCabin(18, 1, new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
         }
     }
 }
