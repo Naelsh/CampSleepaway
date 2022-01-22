@@ -1,4 +1,6 @@
-﻿using CampSleepaway.Application.Campers;
+﻿using CampSleepaway.Application.Cabins;
+using CampSleepaway.Application.Campers;
+using CampSleepaway.Application.Counselors;
 using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
@@ -11,10 +13,13 @@ namespace CampSleepaway.UI.Menu
 {
     class ReportMenu : Menu
     {
+        private readonly CampSleepawayContext _context = new CampSleepawayContext();
+
         private readonly List<string> _menuOptions = new()
         {
             "Find all campers living in a Cabin",
             "Find all campers by Counselor",
+            "Get campers and next of kins orderd by cabin",
             "Return to main menu"
         };
 
@@ -24,7 +29,8 @@ namespace CampSleepaway.UI.Menu
             {
                 1 => this,
                 2 => this,
-                3 => new MainMenu(),
+                3 => this,
+                4 => new MainMenu(),
                 _ => null,
             };
         }
@@ -35,13 +41,13 @@ namespace CampSleepaway.UI.Menu
             switch (inputValue)
             {
                 case 1:
-                    ListAllCampers();
+                    ListCampersInCabinById();
                     break;
                 case 2:
-                    GetCampersByName();
+                    ListCampersBasedOnCurrentCounselor();
                     break;
                 case 3:
-                    GetCamperById();
+                    GetCampersAndNextOfKinOrderdByCabin();
                     break;
                 default:
                     break;
@@ -49,54 +55,91 @@ namespace CampSleepaway.UI.Menu
             return inputValue;
         }
 
-        private void GetCamperById()
+        private void GetCampersAndNextOfKinOrderdByCabin()
         {
-            Console.WriteLine("Enter the id of the person you whish to search for");
-            int id = GetIntAboveZeroFromUserInput(int.MaxValue);
-            using var context = new CampSleepawayContext();
-            CamperManager manager = new(context);
-            Camper camper = manager.GetCamperById(id);
-            if (camper == null)
+            CamperManager camperManager = new(_context);
+            List<CabinCamperView> cabinCamper = camperManager.GetAllCamperAndNextOfKinRelationsOrderedByCabin();
+            cabinCamper.OrderBy(cc => cc.CabinId)
+                .ThenBy(cc => cc.CamperId)
+                .ThenBy(cc => cc.NextOfKinId);
+            foreach (var row in cabinCamper)
             {
-                Console.WriteLine("Camper not found");
-            }
-            else
-            {
-                PrintCamper(camper);
+                Console.WriteLine($"Cabin: {row.CabinId}. {row.CabinName}");
+                Console.WriteLine($"Camper: {row.CamperId}. {row.CamperFirstName} {row.CamperLastName}");
+                Console.WriteLine($"NextOfKin: {row.NextOfKinId}. {row.Relationship} {row.NextOfKinFirstName} {row.NextOfKinLastName}");
+                Console.WriteLine("--------------------------------------");
             }
         }
 
-        private void GetCampersByName()
+        private void ListCampersBasedOnCurrentCounselor()
         {
-            Console.WriteLine("Enter the first name of the person you whish to search for");
-            string firstName = Console.ReadLine();
-            using var context = new CampSleepawayContext();
-            CamperManager manager = new(context);
-            List<Camper> campers = manager.GetCampersByName(firstName);
-            if (campers.Count == 0)
+            Console.WriteLine("Enter the id of the counselor you whish to find campers living with");
+            int counselorId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("At what date?");
+            Console.WriteLine("Year");
+            int year = GetIntAboveZeroFromUserInput(2023);
+            Console.WriteLine("Month");
+            int month = GetIntAboveZeroFromUserInput(12);
+            Console.WriteLine("Day");
+            int day = GetIntAboveZeroFromUserInput(28);
+            DateTime date = new DateTime(year, month, day);
+
+            CounselorManager counselorManager = new(_context);
+            Cabin cabin = counselorManager.GetActiveCabin(counselorId, date);
+            if (cabin == null)
             {
-                Console.WriteLine("No campers found with that name");
+                Console.WriteLine("The counselor was not managing a cabin at that time");
             }
             else
             {
-                campers.OrderBy(x => x.Id);
-                foreach (Camper camper in campers)
+                CabinManager cabinManager = new(_context);
+                List<Camper> campers = cabinManager.GetActiveCampersInCabinById(cabin.Id, date).ToList();
+                if (campers.Count == 0)
                 {
-                    PrintCamper(camper);
+                    Console.WriteLine("There are no campers in this cabin at the asked time");
+                }
+                else
+                {
+                    foreach (var camper in campers)
+                    {
+                        PrintCamper(camper);
+                    }
                 }
             }
         }
 
-        private void ListAllCampers()
+        private void ListCampersInCabinById()
         {
-            using var context = new CampSleepawayContext();
-            CamperManager manager = new(context);
-            List<Camper> campers = manager.GetAllCampers();
-            campers.OrderBy(x => x.Id);
+            Console.WriteLine("Enter the id of the cabin you whish to find campers living in");
+            int cabinId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("At what date?");
+            Console.WriteLine("Year");
+            int year = GetIntAboveZeroFromUserInput(2023);
+            Console.WriteLine("Month");
+            int month = GetIntAboveZeroFromUserInput(12);
+            Console.WriteLine("Day");
+            int day = GetIntAboveZeroFromUserInput(28);
+            DateTime date = new DateTime(year, month, day);
 
-            foreach (Camper camper in campers)
+            CabinManager cabinManager = new(_context);
+            List<Camper> campers = cabinManager.GetActiveCampersInCabinById(cabinId, date).ToList();
+            Counselor counselor = cabinManager.GetCounselorInCabinById(cabinId, date);
+
+            if (counselor == null)
+                Console.WriteLine("WARNING! There is no councelor in the cabin");
+            else
+                Console.WriteLine($"Counselor: ID {counselor.Id}. Name: {counselor.FirstName} {counselor.LastName}");
+
+            if (campers.Count == 0)
             {
-                PrintCamper(camper);
+                Console.WriteLine("There are no campers in this cabin at the asked time");
+            }
+            else
+            {
+                foreach (var camper in campers)
+                {
+                    PrintCamper(camper);
+                }
             }
         }
 

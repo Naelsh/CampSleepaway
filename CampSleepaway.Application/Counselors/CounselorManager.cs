@@ -29,5 +29,13 @@ namespace CampSleepaway.Application.Counselors
         {
             return _context.Counselors.FirstOrDefault(c => c.Id == id);
         }
+
+        public Cabin GetActiveCabin(int counselorId, System.DateTime date)
+        {
+            return (from cabin in _context.Cabins
+                    join ccs in _context.CabinCounselorStays on cabin.Id equals ccs.CabinId
+                    where ccs.CounselorId == counselorId && ccs.StartTime <= date && date <= ccs.EndTime
+                    select cabin).FirstOrDefault();
+        }
     }
 }

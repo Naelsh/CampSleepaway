@@ -66,6 +66,14 @@ namespace CampSleepaway.Application.Cabins
             return (amountInSpan) == 0;
         }
 
+        public Counselor GetCounselorInCabinById(int cabinId, DateTime date)
+        {
+            return (from counselor in _context.Counselors
+                    join ccs in _context.CabinCounselorStays on counselor.Id equals ccs.CounselorId
+                    where ccs.CabinId == cabinId && ccs.StartTime <= date && date <= ccs.EndTime
+                    select counselor).FirstOrDefault();
+        }
+
         // Gives true if there is a councelor when the campers enter the cabin
         // (could be removed while cabin is used)
         private bool CabinHasActiveCouncelor(int cabinId, DateTime start, DateTime end)
