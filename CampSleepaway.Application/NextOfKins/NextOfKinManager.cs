@@ -13,12 +13,12 @@ namespace CampSleepaway.Application.NextOfKins
         {
             if (nextOfKin.FirstName == null) { return 0; }
             if (nextOfKin.LastName == null) { return 0; }
-            if (nextOfKin.Camper.Count == 0) { return 0; }
+            if (nextOfKin.Campers.Count == 0) { return 0; }
 
             // a strange solution, but in order to setup proper m2m relationship
             // I make sure that EF Core does not get to add the relationship
-            int camperId = nextOfKin.Camper[0].Id;
-            nextOfKin.Camper.Clear();
+            int camperId = nextOfKin.Campers[0].Id;
+            nextOfKin.Campers.Clear();
 
             _context.NextOfKins.Add(nextOfKin);
             var result = _context.SaveChanges();

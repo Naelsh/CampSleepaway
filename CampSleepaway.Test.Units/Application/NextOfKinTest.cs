@@ -42,7 +42,7 @@ namespace CampSleepaway.Test.Units.Application
                 LastName = "CamperLastName",
                 DateOfBirth = new DateTime(2012, 01, 01)
             };
-            nextOfKin.Camper.Add(camper);
+            nextOfKin.Campers.Add(camper);
             int result = nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
 
             Assert.AreEqual(expectedEntryChangesInDB, result);
@@ -65,7 +65,7 @@ namespace CampSleepaway.Test.Units.Application
                 LastName = "CamperLastName",
                 DateOfBirth = new DateTime(2012, 01, 01)
             };
-            nextOfKin.Camper.Add(camper);
+            nextOfKin.Campers.Add(camper);
             int result = nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
 
             Assert.AreEqual(expectedEntryChangesInDB, result);
@@ -110,7 +110,7 @@ namespace CampSleepaway.Test.Units.Application
                 FirstName = "NextFirstName",
                 LastName = "NextLastName"
             };
-            nextOfKin.Camper.Add(camper);
+            nextOfKin.Campers.Add(camper);
             int result = nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
 
             Assert.AreEqual(expectedEntryChangesInDB, result);
@@ -140,7 +140,7 @@ namespace CampSleepaway.Test.Units.Application
                 FirstName = "NextFirstName",
                 LastName = "NextLastName"
             };
-            nextOfKin.Camper.Add(camper);
+            nextOfKin.Campers.Add(camper);
             nextOfKinManager.AddNextOfKin(nextOfKin, "parent");
 
             var newCamper = new Camper()

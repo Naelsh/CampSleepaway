@@ -77,7 +77,7 @@ namespace CampSleepaway.Application
                     MailAddress = $"FN{nokIndex}.LN{nokIndex}@gmail.com"
                 };
 
-                newNextOfKin.Camper.Add(context.Campers.FirstOrDefault(c => c.Id == nokIndex + 1));
+                newNextOfKin.Campers.Add(context.Campers.FirstOrDefault(c => c.Id == (nokIndex + 1)));
 
                 NextOfKinManager nextOfKinManager = new(context);
                 nextOfKinManager.AddNextOfKin(newNextOfKin, "Guardian");

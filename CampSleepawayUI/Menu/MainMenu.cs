@@ -18,6 +18,7 @@ namespace CampSleepaway.UI.Menu
             //"Add Cabin",
             //"Add Counselor",
             //"Add Next of Kin",
+            "Remove all data in database",
             "Exit Application"
         };
 
@@ -27,7 +28,10 @@ namespace CampSleepaway.UI.Menu
             {
                 1 => this,
                 2 => new AddCamperMenu(),
-                3 => new CamperReportMenu(),
+                3 => this, //new FindCamperMenu(),
+                4 => new CamperReportMenu(),
+                5 => this,
+                6 => null,
                 _ => null,
             };
         }
@@ -38,6 +42,10 @@ namespace CampSleepaway.UI.Menu
             if (inputValue == 1)
             {
                 SeedData.CreateSeedData();
+            }
+            if (inputValue == 5)
+            {
+                ClearDatabase.Clear();
             }
             return inputValue;
         }

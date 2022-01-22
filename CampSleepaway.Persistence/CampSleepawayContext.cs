@@ -62,7 +62,7 @@ namespace CampSleepaway.Persistence
         {
             modelBuilder.Entity<Camper>()
                             .HasMany(camper => camper.NextOfKins)
-                            .WithMany(nextOfKin => nextOfKin.Camper)
+                            .WithMany(nextOfKin => nextOfKin.Campers)
                             .UsingEntity<CamperNextOfKin>
                             (v => v.HasOne<NextOfKin>().WithMany(),
                             v => v.HasOne<Camper>().WithMany());
