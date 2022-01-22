@@ -1,5 +1,7 @@
 ﻿using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CampSleepaway.Application.NextOfKins
 {
@@ -37,6 +39,16 @@ namespace CampSleepaway.Application.NextOfKins
                 NextOfKinRelationship = relationship
             });
             return _context.SaveChanges();
+        }
+
+        public List<NextOfKin> GetAllItems()
+        {
+            return _context.NextOfKins.ToList();
+        }
+
+        public NextOfKin GetById(int id)
+        {
+            return _context.NextOfKins.FirstOrDefault(nok => nok.Id == id);
         }
     }
 }

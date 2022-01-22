@@ -91,5 +91,15 @@ namespace CampSleepaway.Application.Cabins
                      where ccs.CabinId == cabinId && ccs.StartTime <= date && date <= ccs.EndTime
                      select camper);
         }
+
+        public Cabin GetById(int id)
+        {
+            return _context.Cabins.FirstOrDefault(c => c.Id == id);
+        }
+
+        public List<Cabin> GetAllItems()
+        {
+            return _context.Cabins.ToList();
+        }
     }
 }

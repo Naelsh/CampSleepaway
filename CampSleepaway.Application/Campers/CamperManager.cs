@@ -35,6 +35,16 @@ namespace CampSleepaway.Application.Campers
             throw new NotImplementedException();
         }
 
+        public List<Camper> GetAllItems()
+        {
+            return _context.Campers.ToList();
+        }
+
+        public Camper GetById(int id)
+        {
+            return _context.Campers.FirstOrDefault(c => c.Id == id);
+        }
+
         //public int AddNextOfKinToCamper(Camper camper, NextOfKin nextOfKins, string relationship)
         //{
         //    return 0;

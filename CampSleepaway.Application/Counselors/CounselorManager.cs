@@ -1,5 +1,7 @@
 ﻿using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace CampSleepaway.Application.Counselors
 {
@@ -16,6 +18,16 @@ namespace CampSleepaway.Application.Counselors
             _context.Counselors.Add(counselor);
             var result = _context.SaveChanges();
             return result;
+        }
+
+        public List<Counselor> GetAllItems()
+        {
+            return _context.Counselors.ToList();
+        }
+
+        public Counselor GetById(int id)
+        {
+            return _context.Counselors.FirstOrDefault(c => c.Id == id);
         }
     }
 }

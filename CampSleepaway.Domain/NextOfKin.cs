@@ -5,6 +5,7 @@ namespace CampSleepaway.Domain.Data
 {
     public class NextOfKin
     {
+        [Key]
         public int Id { get; set; }
         [MaxLength(50)]
         [Required]

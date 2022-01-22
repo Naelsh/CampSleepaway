@@ -6,6 +6,7 @@ namespace CampSleepaway.Domain.Data
 {
     public class Camper
     {
+        [Key]
         public int Id { get; set; }
         [MaxLength(50)]
         [Required]
