@@ -1,5 +1,6 @@
 ﻿using CampSleepaway.Application.Cabins;
 using CampSleepaway.Application.Campers;
+using CampSleepaway.Application.Counselors;
 using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using Microsoft.EntityFrameworkCore;
@@ -59,6 +60,32 @@ namespace CampSleepaway.Test.Units.Application
         }
 
         [Test]
+        public void AddCounselorToCabin()
+        {
+            int expectedAmountOfConselors = 1;
+            using var context = TestAddons.GetTestContext("CounselorToCabin");
+            var cabinManager = new CabinManager(context);
+            cabinManager.AddCabinByName("Cabin");
+
+            Counselor counselor = new Counselor()
+            {
+                FirstName = "Councelor",
+                LastName = "Counselor",
+                Title = "Lord",
+                PhoneNumber = "010-123456"
+            };
+            CounselorManager counselorManager = new(context);
+            counselorManager.AddCounselor(counselor);
+
+            cabinManager.AddCounselorToCabinById(counselor.Id, 1,
+                new DateTime(2022,01,01), new DateTime(2022, 12, 01));
+
+            Assert.AreEqual(expectedAmountOfConselors,
+                context.CabinCounselorStays.Where(ccs => ccs.CounselorId == counselor.Id).Count());
+
+        }
+
+        [Test]
         public void AddCamperToCabin()
         {
             int amountOfresidents = 1;
@@ -67,18 +94,29 @@ namespace CampSleepaway.Test.Units.Application
             var cabinManager = new CabinManager(context);
             cabinManager.AddCabinByName("Cabin");
 
-            CamperManager camperManager = new(context);
+            Counselor counselor = new Counselor()
+            {
+                FirstName = "Councelor",
+                LastName = "Counselor",
+                Title = "Lord",
+                PhoneNumber = "010-123456"
+            };
+            CounselorManager counselorManager = new(context);
+            counselorManager.AddCounselor(counselor);
+
             Camper camper = new Camper()
             {
                 FirstName = "FN",
                 LastName = "LN",
                 DateOfBirth = new DateTime()
             };
+            CamperManager camperManager = new(context);
             camperManager.AddCamper(camper);
-            
             DateTime start = new DateTime(2022, 01, 22);
             DateTime end = new DateTime(2022, 02, 22);
 
+
+            cabinManager.AddCounselorToCabinById(counselor.Id, 1, start, end);
             cabinManager.AddCamperToCabin(camper.Id, 1, start, end);
 
             Assert.AreEqual(amountOfresidents, context.Cabins.First().Campers.Count);
@@ -94,8 +132,20 @@ namespace CampSleepaway.Test.Units.Application
             var cabinManager = new CabinManager(context);
             cabinManager.AddCabinByName("Cabin");
 
+            Counselor counselor = new Counselor()
+            {
+                FirstName = "Councelor",
+                LastName = "Counselor",
+                Title = "Lord",
+                PhoneNumber = "010-123456"
+            };
+            CounselorManager counselorManager = new(context);
+            counselorManager.AddCounselor(counselor);
+
             DateTime start = new DateTime(2022, 01, 22);
             DateTime end = new DateTime(2022, 02, 22);
+            cabinManager.AddCounselorToCabinById(counselor.Id, 1, start, end);
+
             CamperManager camperManager = new(context);
             for (int camperI = 0; camperI < amountOfresidents; camperI++)
             {

@@ -1,10 +1,7 @@
 ﻿using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CampSleepaway.Application.Cabins
 {
@@ -19,7 +16,7 @@ namespace CampSleepaway.Application.Cabins
             {
                 return 0;
             }
-            Cabin cabin = new () { Name = name};
+            Cabin cabin = new() { Name = name };
             _context.Cabins.Add(cabin);
             return _context.SaveChanges();
         }
@@ -33,6 +30,7 @@ namespace CampSleepaway.Application.Cabins
         public int AddCamperToCabin(int camperId, int cabinId, DateTime startDate, DateTime endDate)
         {
             if (IsCabinFull(cabinId)) { return 0; }
+            if (!CabinHasCouncelor(cabinId)) { return 0; }
             _context.CabinCamperStays.Add(new CabinCamperStay()
             {
                 CabinId = cabinId,
@@ -41,6 +39,24 @@ namespace CampSleepaway.Application.Cabins
                 EndTime = endDate
             });
             return _context.SaveChanges();
+        }
+
+        public int AddCounselorToCabinById(int counselorId, int cabinId, DateTime start, DateTime end)
+        {
+            if (CabinHasCouncelor(cabinId)) { return 0; }
+            _context.CabinCounselorStays.Add(new CabinCounselorStay()
+            {
+                CounselorId = counselorId,
+                CabinId = cabinId,
+                StartTime = start,
+                EndTime = end
+            });
+            return _context.SaveChanges();
+        }
+
+        private bool CabinHasCouncelor(int cabinId)
+        {
+            return _context.CabinCounselorStays.Where(ccs => ccs.CabinId == cabinId).Count() > 0;
         }
 
         private bool IsCabinFull(int cabinId)
