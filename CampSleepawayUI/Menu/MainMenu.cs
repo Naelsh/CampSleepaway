@@ -15,8 +15,9 @@ namespace CampSleepaway.UI.Menu
             "Seed Data",
             "Add Entry",
             "Read Entities",
-            "Camper Reports",
-            "Add Entry",
+            "Add Relations", // TODO
+            "Delete entity", // TODO
+            "Reports", // check if done
             "Exit Application"
         };
 
@@ -28,9 +29,10 @@ namespace CampSleepaway.UI.Menu
                 2 => this,
                 3 => new AddEntry(),
                 4 => new ReadEntitiesMenu(),
-                5 => new CamperReportMenu(),
-                6 => this,
-                7 => null,
+                5 => this, //AddRelationsMenu(),
+                6 => this, //DeleteEntryMenu(),
+                7 => new CamperReportMenu(),
+                8 => null,
                 _ => null,
             };
         }
