@@ -29,7 +29,7 @@ namespace CampSleepaway.UI.Menu
                 2 => this,
                 3 => new AddEntry(),
                 4 => new ReadEntitiesMenu(),
-                5 => this, //AddRelationsMenu(),
+                5 => new AddRelationsMenu(),
                 6 => this, //DeleteEntryMenu(),
                 7 => new CamperReportMenu(),
                 8 => null,
