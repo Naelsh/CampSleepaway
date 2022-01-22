@@ -11,14 +11,12 @@ namespace CampSleepaway.UI.Menu
     {
         private readonly List<string> _menuOptions = new ()
         {
+            "Remove all data in database",
             "Seed Data",
-            "Add Camper",
+            "Add Entry",
             "Read Entities",
             "Camper Reports",
-            //"Add Cabin",
-            //"Add Counselor",
-            //"Add Next of Kin",
-            "Remove all data in database",
+            "Add Entry",
             "Exit Application"
         };
 
@@ -27,11 +25,12 @@ namespace CampSleepaway.UI.Menu
             return input switch
             {
                 1 => this,
-                2 => new AddCamperMenu(),
-                3 => new ReadEntitiesMenu(),
-                4 => new CamperReportMenu(),
-                5 => this,
-                6 => null,
+                2 => this,
+                3 => new AddEntry(),
+                4 => new ReadEntitiesMenu(),
+                5 => new CamperReportMenu(),
+                6 => this,
+                7 => null,
                 _ => null,
             };
         }
@@ -39,11 +38,11 @@ namespace CampSleepaway.UI.Menu
         public override int HandleInput()
         {
             int inputValue = GetIntAboveZeroFromUserInput(_menuOptions.Count);
-            if (inputValue == 1)
+            if (inputValue == 2)
             {
                 SeedData.CreateSeedData();
             }
-            if (inputValue == 5)
+            else if (inputValue == 1)
             {
                 ClearDatabase.Clear();
             }
