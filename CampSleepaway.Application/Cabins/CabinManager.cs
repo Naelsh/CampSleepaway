@@ -31,7 +31,7 @@ namespace CampSleepaway.Application.Cabins
         public int AddCamperToCabin(int camperId, int cabinId, DateTime startDate, DateTime endDate)
         {
             if (IsCabinFull(cabinId)) { return 0; }
-            if (!CabinHasCouncelor(cabinId)) { return 0; }
+            if (!CabinHasCouncelor(cabinId, startDate, endDate)) { return 0; }
             _context.CabinCamperStays.Add(new CabinCamperStay()
             {
                 CabinId = cabinId,
@@ -44,7 +44,7 @@ namespace CampSleepaway.Application.Cabins
 
         public int AddCounselorToCabinById(int counselorId, int cabinId, DateTime start, DateTime end)
         {
-            if (CabinHasCouncelor(cabinId)) { return 0; }
+            if (CabinHasCouncelor(cabinId, start, end)) { return 0; }
             if (!IsCouncelorAvailableForNewCabin(counselorId, start, end)) { return 0; }
             _context.CabinCounselorStays.Add(new CabinCounselorStay()
             {
@@ -66,9 +66,15 @@ namespace CampSleepaway.Application.Cabins
             return (amountInSpan) == 0;
         }
 
-        private bool CabinHasCouncelor(int cabinId)
+        // Gives true if there is a councelor when the campers enter the cabin
+        // (could be removed while cabin is used)
+        private bool CabinHasCouncelor(int cabinId, DateTime start, DateTime end)
         {
-            return _context.CabinCounselorStays.Where(ccs => ccs.CabinId == cabinId).Count() > 0;
+            int amountInSpan =
+                _context.CabinCounselorStays.Where(ccs => ccs.CabinId == cabinId)
+                .Where(ccs => ccs.StartTime <= start && start <= ccs.EndTime)
+                .Count();
+            return amountInSpan > 0;
         }
 
         private bool IsCabinFull(int cabinId)

@@ -268,7 +268,68 @@ namespace CampSleepaway.Test.Units.Application
                 .Where(c => c.FirstName == camperNotInCabinFirstName).ToList().Count);
         }
 
-        
+        [Test]
+        public void AddCamperToCabinWithNoCounselor()
+        {
+            int amountOfresidents = 0;
+
+            using var context = TestAddons.GetTestContext("AddCamperToNonCounselorCabin");
+            var cabinManager = new CabinManager(context);
+            cabinManager.AddCabinByName("Cabin");
+
+            Camper camper = new Camper()
+            {
+                FirstName = "FN",
+                LastName = "LN",
+                DateOfBirth = new DateTime()
+            };
+            CamperManager camperManager = new(context);
+            camperManager.AddCamper(camper);
+            DateTime start = new DateTime(2022, 01, 22);
+            DateTime end = new DateTime(2022, 02, 22);
+
+            cabinManager.AddCamperToCabin(camper.Id, 1, start, end);
+
+            Assert.AreEqual(amountOfresidents, context.Cabins.First().Campers.Count);
+        }
+
+        [Test]
+        public void AddCamperToCabinWithNoPresentCounselor()
+        {
+            int amountOfresidents = 0;
+
+            using var context = TestAddons.GetTestContext("AddCamperToNonPresentCounselorCabin");
+            var cabinManager = new CabinManager(context);
+            cabinManager.AddCabinByName("Cabin");
+
+
+            Counselor counselor = new Counselor()
+            {
+                FirstName = "Councelor",
+                LastName = "Counselor",
+                Title = "Lord",
+                PhoneNumber = "010-123456"
+            };
+            CounselorManager counselorManager = new(context);
+            counselorManager.AddCounselor(counselor);
+            cabinManager.AddCounselorToCabinById(counselor.Id, 1,
+                new DateTime(2021, 01, 1), new DateTime(2022, 01, 21));
+
+            Camper camper = new Camper()
+            {
+                FirstName = "FN",
+                LastName = "LN",
+                DateOfBirth = new DateTime()
+            };
+            CamperManager camperManager = new(context);
+            camperManager.AddCamper(camper);
+            DateTime start = new DateTime(2022, 01, 22);
+            DateTime end = new DateTime(2022, 02, 22);
+
+            cabinManager.AddCamperToCabin(camper.Id, 1, start, end);
+
+            Assert.AreEqual(amountOfresidents, context.Cabins.First().Campers.Count);
+        }
 
     }
 }
