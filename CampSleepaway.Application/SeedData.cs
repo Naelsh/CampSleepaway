@@ -2,6 +2,7 @@
 using CampSleepaway.Application.Campers;
 using CampSleepaway.Application.Counselors;
 using CampSleepaway.Application.NextOfKins;
+using CampSleepaway.Application.Visits;
 using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
@@ -13,6 +14,7 @@ namespace CampSleepaway.Application
     public static class SeedData
     {
         static readonly int _amountOfCampers = 18;
+        static readonly int _amountOfVisits = 3;
         static readonly List<int> _cabinIds = new List<int>();
         static readonly List<int> _camperIds = new List<int>();
         static readonly List<int> _counselorIds = new List<int>();
@@ -27,6 +29,7 @@ namespace CampSleepaway.Application
             CreateNextOfKins(context);
             AddCounserlorsToCabins(context);
             AddCampersToCabin(context);
+            AddVisits(context);
         }
 
         private static void CreateCabins(CampSleepawayContext context)
@@ -135,6 +138,17 @@ namespace CampSleepaway.Application
             cabinManager.AddCamperToCabin(_camperIds[15], _cabinIds[1], new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
             cabinManager.AddCamperToCabin(_camperIds[16], _cabinIds[2], new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
             cabinManager.AddCamperToCabin(_camperIds[17], _cabinIds[2], new DateTime(2022, 01, 02), new DateTime(2022, 01, 30));
+        }
+
+        private static void AddVisits(CampSleepawayContext context)
+        {
+            VisitManager visitManager = new(context);
+
+            for (int visitIndex = 0; visitIndex < _amountOfVisits; visitIndex++)
+            {
+                DateTime startDate = new DateTime(2022, 01, 01, 10, visitIndex, 0);
+                visitManager.AddNewVisit(_camperIds[visitIndex], startDate, 60 + visitIndex, _nextOfKinIds[visitIndex]);
+            }
         }
     }
 }
