@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CampSleepaway.Application.Campers
+namespace CampSleepaway.Application
 {
     public class CamperManager : ManagerCore
     {
@@ -92,7 +92,10 @@ namespace CampSleepaway.Application.Campers
                     select cabin).FirstOrDefault();
         }
     }
+}
 
+namespace CampSleepaway.Application
+{
     public class CamperCabinView
     {
         public int CamperId { get; set; }

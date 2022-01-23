@@ -3,7 +3,7 @@ using CampSleepaway.Persistence;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CampSleepaway.Application.NextOfKins
+namespace CampSleepaway.Application
 {
     public class NextOfKinManager : ManagerCore
     {
@@ -24,7 +24,7 @@ namespace CampSleepaway.Application.NextOfKins
 
             _context.NextOfKins.Add(nextOfKin);
             var result = _context.SaveChanges();
-            
+
             result += AddNextOfKinRelationship(nextOfKin.Id, camperId, relationship);
 
             return result;
@@ -56,7 +56,7 @@ namespace CampSleepaway.Application.NextOfKins
             return (from campers in _context.Campers
                     join relations in _context.CamperNextOfKins on campers.Id equals relations.CamperId
                     where relations.NextOfKinId == nextOfKinId
-                    select  campers.Id ).ToList();
+                    select campers.Id).ToList();
         }
     }
 }

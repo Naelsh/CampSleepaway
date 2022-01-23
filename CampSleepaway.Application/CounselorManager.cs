@@ -3,7 +3,7 @@ using CampSleepaway.Persistence;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CampSleepaway.Application.Counselors
+namespace CampSleepaway.Application
 {
     public class CounselorManager : ManagerCore
     {

@@ -1,14 +1,10 @@
-﻿using CampSleepaway.Application.Campers;
-using CampSleepaway.Application.NextOfKins;
-using CampSleepaway.Domain.Data;
+﻿using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CampSleepaway.Application.Visits
+namespace CampSleepaway.Application
 {
     public class VisitManager : ManagerCore
     {
@@ -95,9 +91,12 @@ namespace CampSleepaway.Application.Visits
         {
             return startTime.Hour < _startTime;
         }
-        
-    }
 
+    }
+}
+
+namespace CampSleepaway.Application
+{
     public class VisitView
     {
         public string CamperName { get; set; }

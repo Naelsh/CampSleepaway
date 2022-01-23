@@ -1,13 +1,8 @@
-﻿using CampSleepaway.Application.Campers;
-using CampSleepaway.Application.NextOfKins;
-using CampSleepaway.Application.Visits;
+﻿using CampSleepaway.Application;
 using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CampSleepaway.UI.Menu
 {

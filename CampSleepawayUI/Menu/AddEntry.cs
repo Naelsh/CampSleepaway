@@ -1,7 +1,4 @@
-﻿using CampSleepaway.Application.Cabins;
-using CampSleepaway.Application.Campers;
-using CampSleepaway.Application.Counselors;
-using CampSleepaway.Application.NextOfKins;
+﻿using CampSleepaway.Application;
 using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;

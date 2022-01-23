@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace CampSleepaway.Application.Cabins
+namespace CampSleepaway.Application
 {
     public class CabinManager : ManagerCore
     {
@@ -60,10 +60,10 @@ namespace CampSleepaway.Application.Cabins
         {
             int amountInSpan =
                 _context.CabinCounselorStays.Where(ccs => ccs.CounselorId == counselorId)
-                .Where(ccs => (ccs.StartTime <= start && start <= ccs.EndTime)
-                || (ccs.StartTime <= end && end <= ccs.EndTime))
+                .Where(ccs => ccs.StartTime <= start && start <= ccs.EndTime
+                || ccs.StartTime <= end && end <= ccs.EndTime)
                 .Count();
-            return (amountInSpan) == 0;
+            return amountInSpan == 0;
         }
 
         public Counselor GetCounselorInCabinById(int cabinId, DateTime date)
@@ -94,10 +94,10 @@ namespace CampSleepaway.Application.Cabins
 
         public IQueryable<Camper> GetActiveCampersInCabinById(int cabinId, DateTime date)
         {
-            return (from camper in _context.Campers
-                     join ccs in _context.CabinCamperStays on camper.Id equals ccs.CamperId
-                     where ccs.CabinId == cabinId && ccs.StartTime <= date && date <= ccs.EndTime
-                     select camper);
+            return from camper in _context.Campers
+                   join ccs in _context.CabinCamperStays on camper.Id equals ccs.CamperId
+                   where ccs.CabinId == cabinId && ccs.StartTime <= date && date <= ccs.EndTime
+                   select camper;
         }
 
         public Cabin GetById(int id)

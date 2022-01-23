@@ -1,5 +1,4 @@
-﻿using CampSleepaway.Application.Campers;
-using CampSleepaway.Application.NextOfKins;
+﻿using CampSleepaway.Application;
 using CampSleepaway.Domain.Data;
 using NUnit.Framework;
 using System;
