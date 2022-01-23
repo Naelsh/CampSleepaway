@@ -15,6 +15,7 @@ namespace CampSleepaway.UI.Menu
             "Add Relations",
             "Alter data in database",
             "Reports",
+            "Visit",
             "Exit Application"
         };
 
@@ -29,7 +30,8 @@ namespace CampSleepaway.UI.Menu
                 5 => new AddRelationsMenu(),
                 6 => new UpdateEntryMenu(),
                 7 => new ReportMenu(),
-                8 => null,
+                8 => new VisitMenu(),
+                9 => null,
                 _ => null,
             };
         }

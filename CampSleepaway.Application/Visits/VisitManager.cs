@@ -51,6 +51,29 @@ namespace CampSleepaway.Application.Visits
             return _context.SaveChanges();
         }
 
+        public List<VisitView> GetVisits(int camperId, int nextOfKinId)
+        {
+            return (from visit in _context.Visits
+                    where visit.CamperId == camperId
+                    join nokVisit in _context.NextOfKinVisits on visit.Id equals nokVisit.VisitId
+                    where nokVisit.NextOfKinId == nextOfKinId
+                    join camper in _context.Campers on visit.CamperId equals camper.Id
+                    join camperCabinStay in _context.CabinCamperStays on camper.Id equals camperCabinStay.CamperId
+                    join cabin in _context.Cabins on camperCabinStay.CabinId equals cabin.Id
+                    join counseloCabinStay in _context.CabinCounselorStays on cabin.Id equals counseloCabinStay.CabinId
+                    join counselor in _context.Counselors on counseloCabinStay.CounselorId equals counselor.Id
+                    select new VisitView()
+                    {
+                        CamperName = camper.FirstName + " " + camper.LastName,
+                        CabinName = cabin.Name,
+                        CounselorName = counselor.FirstName + " " + counselor.LastName,
+                        CounselorPhoneNumber = counselor.PhoneNumber,
+                        CounselorTitle = counselor.Title,
+                        StartTime = visit.StartTime,
+                        EndTime = visit.EndTime
+                    }).ToList();
+        }
+
         private bool IsNextOfKinResponsibleForCamper(int camperId, int nextOfKinId)
         {
             NextOfKinManager nextOfKinManager = new(_context);
@@ -72,5 +95,17 @@ namespace CampSleepaway.Application.Visits
         {
             return startTime.Hour < _startTime;
         }
+        
+    }
+
+    public class VisitView
+    {
+        public string CamperName { get; set; }
+        public string CabinName { get; set; }
+        public string CounselorName { get; set; }
+        public string CounselorPhoneNumber { get; set; }
+        public string CounselorTitle { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
     }
 }
