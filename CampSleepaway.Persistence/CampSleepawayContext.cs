@@ -1,4 +1,5 @@
-﻿using CampSleepaway.Domain.Data;
+﻿using CampSleepaway.Domain;
+using CampSleepaway.Domain.Data;
 using Microsoft.EntityFrameworkCore;
 
 namespace CampSleepaway.Persistence
@@ -12,6 +13,8 @@ namespace CampSleepaway.Persistence
         public DbSet<CamperNextOfKin> CamperNextOfKins { get; set; }
         public DbSet<CabinCamperStay> CabinCamperStays { get; set; }
         public DbSet<CabinCounselorStay> CabinCounselorStays { get; set; }
+        public DbSet<NextOfKinVisit> NextOfKinVisits { get; set; }
+        public DbSet<Visit> Visits { get; set; }
 
         public CampSleepawayContext()
         {
@@ -55,7 +58,7 @@ namespace CampSleepaway.Persistence
         {
             SetupCamperCabin(modelBuilder);
             SetupCounselorCabin(modelBuilder);
-            //SetupVisits(modelBuilder);
+            SetupNextOfKinVisits(modelBuilder);
             SetupCamperNextOfKin(modelBuilder);
         }
         private static void SetupCamperNextOfKin(ModelBuilder modelBuilder)
@@ -67,15 +70,17 @@ namespace CampSleepaway.Persistence
                             (v => v.HasOne<NextOfKin>().WithMany(),
                             v => v.HasOne<Camper>().WithMany());
         }
-        //private static void SetupVisits(ModelBuilder modelBuilder)
-        //{
-        //    modelBuilder.Entity<Camper>()
-        //                    .HasMany(camper => camper.NextOfKins)
-        //                    .WithMany(nextOfKin => nextOfKin.Children)
-        //                    .UsingEntity<Visit>
-        //                    (v => v.HasOne<NextOfKin>().WithMany(),
-        //                    v => v.HasOne<Camper>().WithMany());
-        //}
+
+        private static void SetupNextOfKinVisits(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<NextOfKin>()
+                            .HasMany(nextOfKin => nextOfKin.Visits)
+                            .WithMany(visit => visit.nextOfKins)
+                            .UsingEntity<NextOfKinVisit>
+                            (v => v.HasOne<Visit>().WithMany(),
+                            v => v.HasOne<NextOfKin>().WithMany());
+        }
+
         private static void SetupCounselorCabin(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Cabin>()

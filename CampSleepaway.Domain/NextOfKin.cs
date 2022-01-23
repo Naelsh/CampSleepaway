@@ -19,5 +19,6 @@ namespace CampSleepaway.Domain.Data
         [Required]
         public string MailAddress { get; set; }
         public List<Camper> Campers { get; set; } = new List<Camper>();
+        public List<Visit> Visits { get; set; } = new List<Visit>();
     }
 }
