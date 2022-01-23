@@ -9,6 +9,6 @@ namespace CampSleepaway.Domain.Data
         public int CamperId { get; set; }
         public DateTime StartTime { get; set; }
         public DateTime EndTime { get; set; }
-        public List<NextOfKin> nextOfKins { get; set; }
+        public List<NextOfKin> NextOfKins { get; set; } = new List<NextOfKin>();
     }
 }

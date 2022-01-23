@@ -50,5 +50,13 @@ namespace CampSleepaway.Application.NextOfKins
         {
             return _context.NextOfKins.FirstOrDefault(nok => nok.Id == id);
         }
+
+        internal List<int> GetIdOfAllCampersNextOfKinHasRelationshipWith(int nextOfKinId)
+        {
+            return (from campers in _context.Campers
+                    join relations in _context.CamperNextOfKins on campers.Id equals relations.CamperId
+                    where relations.NextOfKinId == nextOfKinId
+                    select  campers.Id ).ToList();
+        }
     }
 }

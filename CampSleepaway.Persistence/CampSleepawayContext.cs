@@ -60,7 +60,15 @@ namespace CampSleepaway.Persistence
             SetupCounselorCabin(modelBuilder);
             SetupNextOfKinVisits(modelBuilder);
             SetupCamperNextOfKin(modelBuilder);
+            PrepareVisits(modelBuilder);
         }
+
+        private static void PrepareVisits(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Visit>().Property(t => t.EndTime).IsRequired();
+            modelBuilder.Entity<Visit>().Property(t => t.StartTime).IsRequired();
+        }
+
         private static void SetupCamperNextOfKin(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Camper>()
@@ -75,7 +83,7 @@ namespace CampSleepaway.Persistence
         {
             modelBuilder.Entity<NextOfKin>()
                             .HasMany(nextOfKin => nextOfKin.Visits)
-                            .WithMany(visit => visit.nextOfKins)
+                            .WithMany(visit => visit.NextOfKins)
                             .UsingEntity<NextOfKinVisit>
                             (v => v.HasOne<Visit>().WithMany(),
                             v => v.HasOne<NextOfKin>().WithMany());
