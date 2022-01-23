@@ -74,6 +74,15 @@ namespace CampSleepaway.Application.Campers
             return camperViews;
         }
 
+        public int ChangeNameOfCamper(int camperIdToChange, string newFirstName, string newLastName)
+        {
+            Camper camper = _context.Campers.FirstOrDefault(x => x.Id == camperIdToChange);
+            if (camper == null) { return 0; }
+            camper.FirstName = newFirstName;
+            camper.LastName = newLastName;
+            return _context.SaveChanges();
+        }
+
         private List<NextOfKinView> GetAllNextOfKinsToCamperById(int id)
         {
             return (from nextOfKin in _context.NextOfKins

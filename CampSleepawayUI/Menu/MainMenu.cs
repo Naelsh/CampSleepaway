@@ -18,7 +18,7 @@ namespace CampSleepaway.UI.Menu
             "Add Relations",
             "Delete entity", // TODO
             "Alter data in database", // TODO
-            "Reports", // check if done
+            "Reports",
             "Exit Application"
         };
 
@@ -32,7 +32,7 @@ namespace CampSleepaway.UI.Menu
                 4 => new ReadEntitiesMenu(),
                 5 => new AddRelationsMenu(),
                 6 => this, //DeleteEntryMenu(),
-                7 => this, //AlterDataMenu(),
+                7 => new UpdateEntryMenu(),
                 8 => new ReportMenu(),
                 9 => null,
                 _ => null,
