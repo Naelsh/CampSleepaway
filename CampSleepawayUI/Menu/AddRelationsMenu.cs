@@ -2,6 +2,7 @@
 using CampSleepaway.Application.Campers;
 using CampSleepaway.Application.Counselors;
 using CampSleepaway.Application.NextOfKins;
+using CampSleepaway.Application.Visits;
 using CampSleepaway.Domain.Data;
 using CampSleepaway.Persistence;
 using System;
@@ -18,6 +19,7 @@ namespace CampSleepaway.UI.Menu
             "Connect Next of Kin to Camper",
             "Add Camper to Cabin",
             "Add Counselor to Cabin",
+            "Add new Visit",
             "Return to main menu"
         };
 
@@ -28,7 +30,8 @@ namespace CampSleepaway.UI.Menu
                 1 => this,
                 2 => this,
                 3 => this,
-                4 => new MainMenu(),
+                4 => this,
+                5 => new MainMenu(),
                 _ => null,
             };
         }
@@ -47,10 +50,49 @@ namespace CampSleepaway.UI.Menu
                 case 3:
                     AddCounselorToCabin();
                     break;
+                case 4:
+                    AddVisit();
+                    break;
                 default:
                     break;
             }
             return inputValue;
+        }
+
+        private void AddVisit()
+        {
+            AskForSelection();
+            Console.WriteLine("Select Camper");
+            ListCampers();
+            int camperId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("");
+            Console.WriteLine("Select Next of Kin, remember that the next of Kin needs to have a relation to the camper");
+            ListNextOfKins();
+            int nextOfKinId = GetIntAboveZeroFromUserInput(int.MaxValue);
+            Console.WriteLine("");
+            Console.WriteLine("What time do you want to visit? Visiting hours 10-20");
+            Console.WriteLine("Year:");
+            int year = GetIntAboveZeroFromUserInput(2023);
+            Console.WriteLine("Month:");
+            int month = GetIntAboveZeroFromUserInput(12);
+            Console.WriteLine("Day:");
+            int day = GetIntAboveZeroFromUserInput(28);
+            Console.WriteLine("Hour:");
+            int hour = GetIntAboveZeroFromUserInput(24);
+            Console.WriteLine("Minute:");
+            int minute = GetIntAboveZeroFromUserInput(60);
+            DateTime startTime = new (year, month, day, hour, minute, 0);
+            Console.WriteLine("");
+            Console.WriteLine("For how long? (Minutes)");
+            int durationInMinutes = GetIntAboveZeroFromUserInput(60 * 10);
+
+            AddNewVisit(camperId, startTime, durationInMinutes, nextOfKinId);
+        }
+
+        private void AddNewVisit(int camperId, DateTime startTime, int durationInMinutes, int nextOfKinId)
+        {
+            VisitManager visitManager = new(_context);
+            visitManager.AddNewVisit(camperId, startTime, durationInMinutes, nextOfKinId);
         }
 
         private void AddCounselorToCabin()
