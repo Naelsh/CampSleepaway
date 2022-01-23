@@ -1,12 +1,6 @@
-﻿using CampSleepaway.Application.Cabins;
-using CampSleepaway.Application.Campers;
+﻿using CampSleepaway.Application.Campers;
 using CampSleepaway.Domain.Data;
 using NUnit.Framework;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CampSleepaway.Test.Units.Application
 {

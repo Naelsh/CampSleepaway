@@ -1,9 +1,6 @@
 ﻿using CampSleepaway.Application;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace CampSleepaway.UI.Menu
 {
@@ -16,8 +13,7 @@ namespace CampSleepaway.UI.Menu
             "Add Entry",
             "Read Entities",
             "Add Relations",
-            "Delete entity", // TODO
-            "Alter data in database", // TODO
+            "Alter data in database",
             "Reports",
             "Exit Application"
         };
@@ -31,10 +27,9 @@ namespace CampSleepaway.UI.Menu
                 3 => new AddEntry(),
                 4 => new ReadEntitiesMenu(),
                 5 => new AddRelationsMenu(),
-                6 => this, //DeleteEntryMenu(),
-                7 => new UpdateEntryMenu(),
-                8 => new ReportMenu(),
-                9 => null,
+                6 => new UpdateEntryMenu(),
+                7 => new ReportMenu(),
+                8 => null,
                 _ => null,
             };
         }
