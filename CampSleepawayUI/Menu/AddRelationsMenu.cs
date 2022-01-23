@@ -92,7 +92,8 @@ namespace CampSleepaway.UI.Menu
         private void AddNewVisit(int camperId, DateTime startTime, int durationInMinutes, int nextOfKinId)
         {
             VisitManager visitManager = new(_context);
-            visitManager.AddNewVisit(camperId, startTime, durationInMinutes, nextOfKinId);
+            var result = visitManager.AddNewVisit(camperId, startTime, durationInMinutes, nextOfKinId);
+            Console.WriteLine($"A total of {result} entries were added to the database");
         }
 
         private void AddCounselorToCabin()
