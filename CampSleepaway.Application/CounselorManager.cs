@@ -1,4 +1,4 @@
-﻿using CampSleepaway.Domain.Data;
+﻿using CampSleepaway.Domain;
 using CampSleepaway.Persistence;
 using System.Collections.Generic;
 using System.Linq;

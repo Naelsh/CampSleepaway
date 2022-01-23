@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CampSleepaway.Domain.Data
+namespace CampSleepaway.Domain
 {
     public class Visit
     {

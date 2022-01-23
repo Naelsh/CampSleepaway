@@ -1,5 +1,5 @@
 ﻿using CampSleepaway.Application;
-using CampSleepaway.Domain.Data;
+using CampSleepaway.Domain;
 using NUnit.Framework;
 using System;
 using System.Linq;
