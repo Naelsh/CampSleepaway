@@ -57,17 +57,27 @@ namespace CampSleepaway.UI.Menu
 
         private void GetCampersAndNextOfKinOrderdByCabin()
         {
+            Console.WriteLine("At what date are you interested in finding information?");
+            Console.WriteLine("Year");
+            int year = GetIntAboveZeroFromUserInput(2023);
+            Console.WriteLine("Month");
+            int month = GetIntAboveZeroFromUserInput(12);
+            Console.WriteLine("Day");
+            int day = GetIntAboveZeroFromUserInput(28);
+            DateTime date = new DateTime(year, month, day);
+
             CamperManager camperManager = new(_context);
-            List<CabinCamperView> cabinCamper = camperManager.GetAllCamperAndNextOfKinRelationsOrderedByCabin();
-            cabinCamper.OrderBy(cc => cc.CabinId)
-                .ThenBy(cc => cc.CamperId)
-                .ThenBy(cc => cc.NextOfKinId);
-            foreach (var row in cabinCamper)
+            List<CamperCabinView> campers = camperManager.GetAllCamperAndNextOfKinRelationsOrderedByCabin(date);
+            campers.OrderBy(cc => cc.CabinId);
+            foreach (var camper in campers)
             {
-                Console.WriteLine($"Cabin: {row.CabinId}. {row.CabinName}");
-                Console.WriteLine($"Camper: {row.CamperId}. {row.CamperFirstName} {row.CamperLastName}");
-                Console.WriteLine($"NextOfKin: {row.NextOfKinId}. {row.Relationship} {row.NextOfKinFirstName} {row.NextOfKinLastName}");
-                Console.WriteLine("--------------------------------------");
+                Console.WriteLine($"Cabin: {camper.CabinId}. {camper.CabinName}");// {row.CabinName}");
+                Console.WriteLine($"Camper: {camper.CamperId}. {camper.CamperFirstName} {camper.CamperLastName}");
+                foreach (var nextOfKin in camper.NextOfKins)
+                {
+                    Console.WriteLine($"  Next Of Kin: {nextOfKin.NextOfKinId}. {nextOfKin.Relationship} {nextOfKin.FirstName} {nextOfKin.LastName}");
+                }
+                Console.WriteLine("------------------------------------");
             }
         }
 
